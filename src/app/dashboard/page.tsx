@@ -159,7 +159,38 @@ export default function DashboardPage() {
     <>
       <Nav />
       <main className="min-h-screen bg-[#F8FAFC] pt-24 pb-20">
-        <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        {/* Dashboard top bar */}
+        <div className="bg-white border-b border-slate-100 -mt-4 mb-6">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] flex items-center justify-center text-white text-sm font-semibold">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <p className="text-[13px] font-medium text-[#0F172A]">{user.name}</p>
+                <p className="text-[11px] text-[#94A3B8] capitalize">{user.account_type} account</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#1E6DF0] to-[#3B82F6] text-white text-[12px] font-medium px-3.5 py-1.5 rounded-lg hover:opacity-90 transition-opacity shadow-sm"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Upgrade
+              </Link>
+              <button
+                onClick={() => setTab("create")}
+                className="inline-flex items-center gap-1.5 bg-[#0F172A] text-white text-[12px] font-medium px-3.5 py-1.5 rounded-lg hover:bg-[#1E293B] transition-colors"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4"/></svg>
+                New Build
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Dashboard header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
@@ -170,13 +201,6 @@ export default function DashboardPage() {
                 {user.account_type === "shop" ? "Manage your shop and track inquiries" : "Build, share, and get discovered"}
               </p>
             </div>
-            <button
-              onClick={() => setTab("create")}
-              className="inline-flex items-center gap-2 bg-[#1E6DF0] text-white font-medium text-sm px-5 py-2.5 rounded-lg hover:bg-[#1557CC] transition-colors shadow-sm"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4"/></svg>
-              New Build
-            </button>
           </div>
 
           {/* Tabs */}
@@ -504,6 +528,32 @@ export default function DashboardPage() {
                       {settingsMsg}
                     </div>
                   )}
+
+                  {/* Avatar upload */}
+                  <div className="mb-6 flex items-center gap-4">
+                    <div className="relative group">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] flex items-center justify-center text-white text-xl font-semibold overflow-hidden">
+                        {user.name.charAt(0).toUpperCase()}
+                      </div>
+                      <label className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center cursor-pointer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>
+                        </svg>
+                        <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const formData = new FormData();
+                          formData.append("avatar", file);
+                          const res = await fetch("/api/auth/avatar", { method: "POST", body: formData });
+                          if (res.ok) setSettingsMsg("Profile photo updated");
+                        }} />
+                      </label>
+                    </div>
+                    <div>
+                      <p className="text-[13px] font-medium text-[#0F172A]">Profile photo</p>
+                      <p className="text-[11px] text-[#94A3B8]">Click to upload (max 5MB)</p>
+                    </div>
+                  </div>
 
                   <form onSubmit={handleSaveSettings} className="space-y-5">
                     <div>

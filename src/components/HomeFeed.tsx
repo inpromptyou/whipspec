@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 
@@ -25,6 +25,29 @@ export default function HomeFeed() {
   const [activeTab, setActiveTab] = useState("Latest Builds");
   const [activeBrands, setActiveBrands] = useState<string[]>([]);
   const chipScrollRef = useRef<HTMLDivElement>(null);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  const handleAvatarUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("avatar", file);
+    try {
+      const res = await fetch("/api/auth/avatar", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.avatar_url) setAvatarUrl(data.avatar_url);
+    } catch { /* ignore */ }
+  }, []);
+
+  useEffect(() => {
+    // Load avatar from user if available
+    if (user) {
+      fetch("/api/auth/me").then(r => r.json()).then(d => {
+        if (d.user?.avatar_url) setAvatarUrl(d.user.avatar_url);
+      }).catch(() => {});
+    }
+  }, [user]);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -55,20 +78,34 @@ export default function HomeFeed() {
     <div className="min-h-screen bg-white">
       {/* Profile section */}
       <div className="text-center pt-20 sm:pt-28 pb-6 sm:pb-8 border-b border-slate-100 px-4">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] mx-auto mb-3 sm:mb-4 flex items-center justify-center text-white text-xl sm:text-2xl font-semibold">
-          {user.name.charAt(0).toUpperCase()}
-        </div>
-        <p className="text-[14px] text-[#64748B] italic">
-          Builds, curated by
+        <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
+        <button
+          onClick={() => avatarInputRef.current?.click()}
+          className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 sm:mb-4 group"
+          title="Change profile photo"
+        >
+          {avatarUrl ? (
+            <img src={avatarUrl} alt={user.name} className="w-full h-full rounded-full object-cover" />
+          ) : (
+            <div className="w-full h-full rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] flex items-center justify-center text-white text-xl sm:text-2xl font-semibold">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+          )}
+          <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+        </button>
+        <p className="text-[14px] text-[#64748B]">
+          Built by
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-[#0F172A] tracking-tight mt-0.5">
-          {user.name}
+          {(user as unknown as { username?: string }).username
+            ? `@${(user as unknown as { username?: string }).username}`
+            : user.name
+          }
         </h1>
-        {(user as unknown as { username?: string }).username && (
-          <p className="text-[14px] text-[#1E6DF0] font-medium mt-0.5">
-            @{(user as unknown as { username?: string }).username}
-          </p>
-        )}
         <div className="flex items-center justify-center gap-3 mt-4">
           <Link
             href="/dashboard"
