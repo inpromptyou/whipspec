@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
 import AuthButton from "@/components/AuthButton";
+import { OrganizationSchema, WebsiteSchema } from "@/components/StructuredData";
 
 const GRID_IMAGES = [
   { id: 1, src: "/hero-3.jpg", alt: "HiLux beach build" },
@@ -25,6 +26,8 @@ const STATS = [
 export default function HomePage() {
   return (
     <>
+      <OrganizationSchema />
+      <WebsiteSchema />
       <Nav />
       <main>
         {/* ─── Hero: ShopMy-style image grid with overlaid text ─── */}

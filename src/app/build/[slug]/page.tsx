@@ -1,10 +1,11 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { VehicleSchema } from "@/components/StructuredData";
+import { getSql } from "@/lib/db";
+import BuildShareButton from "./BuildShareButton";
 
 interface Build {
   id: number; title: string; slug: string; make: string; model: string; year: number;
@@ -13,41 +14,86 @@ interface Build {
 }
 interface Mod {
   id: number; category: string; brand: string; product_name: string;
-  shop_name: string; shop_slug: string; shop_display_name: string; link: string; notes: string;
+  shop_name: string; shop_slug: string; link: string; notes: string;
 }
 
-export default function BuildPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const [build, setBuild] = useState<Build | null>(null);
-  const [mods, setMods] = useState<Mod[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
+async function getBuild(slug: string): Promise<{ build: Build; mods: Mod[] } | null> {
+  try {
+    const sql = getSql();
+    const builds = await sql`
+      SELECT b.*, u.name as creator_name, u.avatar_url as creator_avatar
+      FROM builds b JOIN users u ON b.user_id = u.id
+      WHERE b.slug = ${slug} AND b.status = 'published'
+      LIMIT 1
+    `;
+    if (builds.length === 0) return null;
+    const build = builds[0] as unknown as Build;
 
-  useEffect(() => {
-    fetch(`/api/builds/${slug}`)
-      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then((d) => { setBuild(d.build); setMods(d.mods || []); })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false));
-  }, [slug]);
+    // Increment views
+    await sql`UPDATE builds SET views = COALESCE(views, 0) + 1 WHERE id = ${build.id}`.catch(() => {});
 
-  if (loading) return (
-    <><Nav /><div className="min-h-screen flex items-center justify-center"><p className="text-sm text-[#94A3B8]">Loading...</p></div></>
-  );
+    const mods = await sql`
+      SELECT bm.*, s.slug as shop_slug
+      FROM build_mods bm
+      LEFT JOIN shops s ON bm.shop_id = s.id
+      WHERE bm.build_id = ${build.id}
+      ORDER BY bm.sort_order ASC
+    `;
 
-  if (notFound || !build) return (
-    <><Nav /><div className="min-h-screen flex items-center justify-center text-center px-5">
-      <div><h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[#0F172A] mb-2">Build not found</h1>
-      <p className="text-[14px] text-[#64748B] mb-6">This build may have been removed or the link is incorrect.</p>
-      <Link href="/discover" className="text-[#1E6DF0] text-sm font-medium">Browse all builds</Link></div>
-    </div><Footer /></>
-  );
+    return { build, mods: mods as unknown as Mod[] };
+  } catch {
+    return null;
+  }
+}
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const data = await getBuild(slug);
+  if (!data) return { title: "Build Not Found — WhipSpec" };
+
+  const { build } = data;
+  const vehicle = [build.year, build.make, build.model].filter(Boolean).join(" ");
+  const title = `${build.title}${vehicle ? ` — ${vehicle}` : ""} | WhipSpec`;
+  const description = build.description || `Full build spec for ${build.title}. Parts, shops, and brands credited.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://whipspec.com/build/${slug}`,
+      images: build.hero_image ? [{ url: build.hero_image }] : undefined,
+      type: "article",
+    },
+    twitter: {
+      card: build.hero_image ? "summary_large_image" : "summary",
+      title,
+      description,
+    },
+  };
+}
+
+export default async function BuildPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const data = await getBuild(slug);
+  if (!data) notFound();
+
+  const { build, mods } = data;
   const vehicle = [build.year, build.make, build.model].filter(Boolean).join(" ");
   const modCategories = [...new Set(mods.map((m) => m.category))];
 
   return (
     <>
+      <VehicleSchema
+        title={build.title}
+        make={build.make}
+        model={build.model}
+        year={build.year}
+        description={build.description}
+        url={`https://whipspec.com/build/${slug}`}
+        image={build.hero_image}
+      />
       <Nav />
       <main className="pt-20">
         {/* Hero */}
@@ -88,7 +134,7 @@ export default function BuildPage() {
             )}
           </div>
 
-          {/* Mods */}
+          {/* Mods / Build Spec */}
           {mods.length > 0 ? (
             <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8 mb-6">
               <h2 className="text-[17px] font-semibold text-[#0F172A] mb-5">Build Spec</h2>
@@ -103,15 +149,15 @@ export default function BuildPage() {
                             {m.brand && <span className="font-medium">{m.brand} </span>}
                             {m.product_name}
                           </p>
-                          {(m.shop_display_name || m.shop_name) && (
+                          {m.shop_name && (
                             <p className="text-[12px] text-[#94A3B8] mt-0.5">
                               Installed by{" "}
                               {m.shop_slug ? (
                                 <Link href={`/shop/${m.shop_slug}`} className="text-[#1E6DF0] hover:text-[#3B82F6]">
-                                  {m.shop_display_name || m.shop_name}
+                                  {m.shop_name}
                                 </Link>
                               ) : (
-                                m.shop_display_name || m.shop_name
+                                m.shop_name
                               )}
                             </p>
                           )}
@@ -137,13 +183,7 @@ export default function BuildPage() {
           {/* Share */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 text-center">
             <p className="text-[13px] text-[#64748B] mb-3">Share this build spec</p>
-            <button
-              onClick={() => { navigator.clipboard.writeText(window.location.href); }}
-              className="inline-flex items-center gap-2 bg-slate-50 hover:bg-slate-100 text-[#0F172A] text-[13px] font-medium px-4 py-2 rounded-lg transition-colors"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              Copy link
-            </button>
+            <BuildShareButton />
           </div>
         </div>
       </main>
