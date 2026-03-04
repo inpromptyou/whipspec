@@ -130,5 +130,56 @@ export async function ensureTables() {
     )
   `;
 
-  return { success: true, tables: ["users", "sessions", "waitlist", "shops", "brands", "builds", "build_mods", "inquiries"] };
+  // Sponsorships system
+  await sql`
+    CREATE TABLE IF NOT EXISTS sponsorships (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      placement VARCHAR(50) NOT NULL,
+      target_type VARCHAR(30),
+      target_id INTEGER,
+      daily_budget NUMERIC(10,2) NOT NULL,
+      total_spent NUMERIC(10,2) DEFAULT 0,
+      budget_cap NUMERIC(10,2),
+      status VARCHAR(20) DEFAULT 'active',
+      title VARCHAR(255),
+      image_url TEXT,
+      link_url TEXT,
+      impressions INTEGER DEFAULT 0,
+      clicks INTEGER DEFAULT 0,
+      starts_at DATE DEFAULT CURRENT_DATE,
+      ends_at DATE,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+      updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    )
+  `;
+
+  // Platform engagement metrics (daily snapshots for dynamic pricing)
+  await sql`
+    CREATE TABLE IF NOT EXISTS platform_metrics (
+      id SERIAL PRIMARY KEY,
+      date DATE UNIQUE NOT NULL DEFAULT CURRENT_DATE,
+      total_views INTEGER DEFAULT 0,
+      unique_visitors INTEGER DEFAULT 0,
+      total_builds INTEGER DEFAULT 0,
+      total_shops INTEGER DEFAULT 0,
+      total_users INTEGER DEFAULT 0,
+      engagement_score NUMERIC(8,2) DEFAULT 0,
+      floor_price NUMERIC(10,2) DEFAULT 5.00,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    )
+  `;
+
+  // Sponsorship events (impressions, clicks for billing)
+  await sql`
+    CREATE TABLE IF NOT EXISTS sponsorship_events (
+      id SERIAL PRIMARY KEY,
+      sponsorship_id INTEGER NOT NULL REFERENCES sponsorships(id) ON DELETE CASCADE,
+      event_type VARCHAR(20) NOT NULL,
+      metadata JSONB DEFAULT '{}',
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    )
+  `;
+
+  return { success: true, tables: ["users", "sessions", "waitlist", "shops", "brands", "builds", "build_mods", "inquiries", "sponsorships", "platform_metrics", "sponsorship_events"] };
 }

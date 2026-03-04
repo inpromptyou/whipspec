@@ -26,7 +26,7 @@ const MENUS = [
     label: "Pricing",
     items: [
       { href: "/pricing", title: "Shop Plans", desc: "Pro and Featured tiers for workshops" },
-      { href: "/pricing", title: "Brand Sponsorships", desc: "Sponsor builds and categories" },
+      { href: "/sponsor", title: "Sponsor", desc: "Sponsor builds, categories, and search" },
       { href: "/contact", title: "Enterprise", desc: "Custom packages and campaigns" },
     ],
   },
