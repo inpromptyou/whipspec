@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import AuthButton from "@/components/AuthButton";
 import HomeRouter from "@/components/HomeRouter";
+import Animate from "@/components/Animate";
 import { OrganizationSchema, WebsiteSchema } from "@/components/StructuredData";
 
 const GRID_IMAGES = [
@@ -36,7 +37,7 @@ export default function HomePage() {
           {/* Image grid background */}
           <div className="absolute inset-0 grid grid-cols-2 sm:grid-cols-4 grid-rows-4 sm:grid-rows-2 gap-[2px]">
             {GRID_IMAGES.map((img) => (
-              <div key={img.id} className="relative bg-slate-900">
+              <div key={img.id} className="relative bg-slate-900 hover-zoom">
                 <img
                   src={img.src}
                   alt={img.alt}
@@ -51,30 +52,36 @@ export default function HomePage() {
 
           {/* Hero content */}
           <div className="relative z-10 max-w-4xl mx-auto px-5 text-center">
-            <h1 className="font-[family-name:var(--font-playfair)] text-[2rem] sm:text-[3.25rem] md:text-[5rem] text-white leading-[1.08] tracking-tight mb-4 sm:mb-6">
-              Built by the{" "}
-              <em className="italic">obsessed,</em>
-              <br />
-              not the algorithm.
-            </h1>
-            <p className="text-[14px] sm:text-base md:text-lg text-white/70 max-w-lg mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
-              Discover the exact parts, shops, and brands behind
-              Australia&rsquo;s best car builds.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center px-4 sm:px-0">
-              <AuthButton
-                href="/dashboard"
-                className="inline-flex items-center justify-center bg-white text-[#0F172A] font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/90 transition-colors"
-              >
-                Get Started
-              </AuthButton>
-              <Link
-                href="/discover"
-                className="inline-flex items-center justify-center border border-white/30 text-white font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/10 transition-colors"
-              >
-                Explore Builds
-              </Link>
-            </div>
+            <Animate animation="blur-in" duration={800}>
+              <h1 className="font-[family-name:var(--font-playfair)] text-[2rem] sm:text-[3.25rem] md:text-[5rem] text-white leading-[1.08] tracking-tight mb-4 sm:mb-6">
+                Built by the{" "}
+                <em className="italic">obsessed,</em>
+                <br />
+                not the algorithm.
+              </h1>
+            </Animate>
+            <Animate animation="fade-up" delay={200}>
+              <p className="text-[14px] sm:text-base md:text-lg text-white/70 max-w-lg mx-auto mb-6 sm:mb-8 leading-relaxed px-2">
+                Discover the exact parts, shops, and brands behind
+                Australia&rsquo;s best car builds.
+              </p>
+            </Animate>
+            <Animate animation="fade-up" delay={400}>
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center px-4 sm:px-0">
+                <AuthButton
+                  href="/dashboard"
+                  className="inline-flex items-center justify-center bg-white text-[#0F172A] font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/90 transition-colors animate-pulse-glow"
+                >
+                  Get Started
+                </AuthButton>
+                <Link
+                  href="/discover"
+                  className="inline-flex items-center justify-center border border-white/30 text-white font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  Explore Builds
+                </Link>
+              </div>
+            </Animate>
           </div>
 
           {/* Bottom fade to white */}
@@ -84,10 +91,12 @@ export default function HomePage() {
         {/* ─── Stats Bar ─── */}
         <section className="relative -mt-8 z-10">
           <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+            <Animate animation="scale-in" duration={700}>
             <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 p-5 sm:p-8 md:p-10">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
-                {STATS.map((stat) => (
-                  <div key={stat.label} className="text-center">
+                {STATS.map((stat, i) => (
+                  <Animate key={stat.label} animation="fade-up" delay={i * 100}>
+                  <div className="text-center">
                     <p className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl md:text-4xl text-[#0F172A] tracking-tight">
                       {stat.value}
                     </p>
@@ -98,15 +107,18 @@ export default function HomePage() {
                       Source: {stat.source}
                     </p>
                   </div>
+                  </Animate>
                 ))}
               </div>
             </div>
+            </Animate>
           </div>
         </section>
 
         {/* ─── What is WhipSpec ─── */}
         <section className="pt-24 pb-20 md:pt-32 md:pb-28">
           <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+            <Animate animation="fade-up">
             <div className="text-center mb-16">
               <p className="text-[11px] font-semibold text-[#1E6DF0] tracking-[0.2em] uppercase mb-3">
                 The Platform
@@ -116,6 +128,7 @@ export default function HomePage() {
                 <em className="italic">proper spec sheet.</em>
               </h2>
             </div>
+            </Animate>
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
@@ -146,10 +159,10 @@ export default function HomePage() {
                   title: "For Shops",
                   desc: "Get credited every time your work appears on a build. New customers find you through the cars you've touched.",
                 },
-              ].map((card) => (
+              ].map((card, i) => (
+                <Animate key={card.title} animation="fade-up" delay={i * 120}>
                 <div
-                  key={card.title}
-                  className="bg-[#F8FAFC] rounded-2xl p-8 border border-slate-100 hover:border-slate-200 hover:shadow-lg hover:shadow-slate-100/50 transition-all"
+                  className="bg-[#F8FAFC] rounded-2xl p-8 border border-slate-100 hover-lift"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#1E6DF0]/[0.08] flex items-center justify-center mb-5">
                     {card.icon}
@@ -161,6 +174,7 @@ export default function HomePage() {
                     {card.desc}
                   </p>
                 </div>
+                </Animate>
               ))}
             </div>
           </div>
@@ -201,8 +215,9 @@ export default function HomePage() {
                   icon: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14",
                   color: "from-[#6366F1] to-[#8B5CF6]",
                 },
-              ].map((step) => (
-                <div key={step.num} className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 text-center hover:shadow-lg hover:shadow-slate-100/60 transition-all">
+              ].map((step, i) => (
+                <Animate key={step.num} animation="fade-up" delay={i * 150}>
+                <div className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 text-center hover-lift hover-shine">
                   <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} mb-5 shadow-sm`}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d={step.icon} />
@@ -216,6 +231,7 @@ export default function HomePage() {
                     {step.desc}
                   </p>
                 </div>
+                </Animate>
               ))}
             </div>
 
