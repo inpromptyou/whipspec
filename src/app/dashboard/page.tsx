@@ -174,17 +174,17 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2">
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#1E6DF0] to-[#3B82F6] text-white text-[12px] font-medium px-3.5 py-1.5 rounded-lg hover:opacity-90 transition-opacity shadow-sm"
+                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-[#1E6DF0] to-[#3B82F6] text-white text-[12px] font-medium px-2.5 sm:px-3.5 py-1.5 rounded-lg hover:opacity-90 transition-opacity shadow-sm"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                Upgrade
+                <span className="hidden sm:inline">Upgrade</span>
               </Link>
               <button
                 onClick={() => setTab("create")}
-                className="inline-flex items-center gap-1.5 bg-[#0F172A] text-white text-[12px] font-medium px-3.5 py-1.5 rounded-lg hover:bg-[#1E293B] transition-colors"
+                className="inline-flex items-center gap-1.5 bg-[#0F172A] text-white text-[12px] font-medium px-2.5 sm:px-3.5 py-1.5 rounded-lg hover:bg-[#1E293B] transition-colors"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4"/></svg>
-                New Build
+                <span className="hidden sm:inline">New Build</span>
               </button>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Tabs */}
-          <div className="flex gap-1 bg-white border border-slate-100 rounded-xl p-1 mb-8 overflow-x-auto">
+          <div className="flex gap-1 bg-white border border-slate-100 rounded-xl p-1 mb-6 sm:mb-8 overflow-x-auto scrollbar-hide -mx-4 sm:mx-0 px-4 sm:px-0">
             {TABS.map((t) => (
               <button
                 key={t.id}
@@ -245,7 +245,7 @@ export default function DashboardPage() {
               {/* Quick actions */}
               <div>
                 <h2 className="text-[15px] font-semibold text-[#0F172A] mb-4">Quick Actions</h2>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3">
                   <button onClick={() => setTab("create")} className="bg-white rounded-xl border border-slate-100 p-5 text-left hover:shadow-md hover:border-[#1E6DF0]/20 transition-all group">
                     <div className="w-10 h-10 rounded-lg bg-[#1E6DF0]/[0.06] flex items-center justify-center mb-3 group-hover:bg-[#1E6DF0]/[0.12] transition-colors">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5"><path d="M12 4v16m8-8H4"/></svg>

@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="bg-white border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 sm:gap-8 mb-10 sm:mb-12">
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="inline-block mb-3">
               <Image
