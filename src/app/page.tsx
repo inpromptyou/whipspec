@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
 import AuthButton from "@/components/AuthButton";
+import HomeRouter from "@/components/HomeRouter";
 import { OrganizationSchema, WebsiteSchema } from "@/components/StructuredData";
 
 const GRID_IMAGES = [
@@ -25,7 +26,7 @@ const STATS = [
 
 export default function HomePage() {
   return (
-    <>
+    <HomeRouter>
       <OrganizationSchema />
       <WebsiteSchema />
       <Nav />
@@ -303,6 +304,6 @@ export default function HomePage() {
         </section>
       </main>
       <Footer />
-    </>
+    </HomeRouter>
   );
 }
