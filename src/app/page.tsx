@@ -168,44 +168,64 @@ export default function HomePage() {
 
         {/* ─── How It Works ─── */}
         <section className="py-20 md:py-28 bg-[#F8FAFC]">
-          <div className="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-            <p className="text-[11px] font-semibold text-[#1E6DF0] tracking-[0.2em] uppercase mb-3">
-              How It Works
-            </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-[2.75rem] text-[#0F172A] tracking-tight leading-tight mb-16">
-              Three steps. One link.
-            </h2>
+          <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <p className="text-[11px] font-semibold text-[#1E6DF0] tracking-[0.2em] uppercase mb-3">
+                How It Works
+              </p>
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-[2.75rem] text-[#0F172A] tracking-tight leading-tight">
+                Three steps. One link.
+              </h2>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-12 md:gap-8">
+            <div className="grid md:grid-cols-3 gap-6 md:gap-8">
               {[
                 {
                   num: "01",
-                  title: "Upload your build",
-                  desc: "Add photos of your car. We help draft the mod list — you confirm and refine.",
+                  title: "Drop your build",
+                  desc: "Sign up, pick your username, and post your full build spec — make, model, year, every mod.",
+                  icon: "M12 4v16m8-8H4",
+                  color: "from-[#1E6DF0] to-[#3B82F6]",
                 },
                 {
                   num: "02",
                   title: "Tag parts and shops",
-                  desc: "Attribute every modification. The brand, the product, the shop that installed it. Everyone gets credit.",
+                  desc: "Credit every brand, product, and workshop. They get discovered. You build your reputation.",
+                  icon: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z",
+                  color: "from-[#3B82F6] to-[#6366F1]",
                 },
                 {
                   num: "03",
-                  title: "Share your spec",
-                  desc: "One link in your bio. Followers get the full breakdown. Shops get the leads. You stop repeating yourself.",
+                  title: "Share your profile",
+                  desc: "Put whipspec.com/user/@you in your bio. Followers get the full breakdown — no more \"what wheels?\" DMs.",
+                  icon: "M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14",
+                  color: "from-[#6366F1] to-[#8B5CF6]",
                 },
               ].map((step) => (
-                <div key={step.num}>
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white border border-slate-200 text-[12px] font-mono text-[#1E6DF0] mb-5 shadow-sm">
-                    {step.num}
+                <div key={step.num} className="bg-white rounded-2xl border border-slate-100 p-6 md:p-8 text-center hover:shadow-lg hover:shadow-slate-100/60 transition-all">
+                  <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} mb-5 shadow-sm`}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={step.icon} />
+                    </svg>
                   </div>
+                  <div className="text-[11px] font-mono text-[#1E6DF0] mb-2">{step.num}</div>
                   <h3 className="text-[16px] font-semibold text-[#0F172A] mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-[14px] text-[#64748B] leading-relaxed max-w-[280px] mx-auto">
+                  <p className="text-[14px] text-[#64748B] leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
               ))}
+            </div>
+
+            {/* Profile URL example */}
+            <div className="mt-10 text-center">
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-5 py-2.5 shadow-sm">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] flex items-center justify-center text-white text-[10px] font-bold">Y</div>
+                <span className="text-[13px] text-[#94A3B8]">whipspec.com/user/</span>
+                <span className="text-[13px] text-[#0F172A] font-semibold">@yourname</span>
+              </div>
             </div>
           </div>
         </section>
