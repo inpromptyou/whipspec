@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import { AuthProvider } from "@/lib/auth-context";
+import Analytics from "@/components/Analytics";
+import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -53,7 +55,11 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
       </head>
       <body className="font-sans antialiased bg-white text-[#0F172A]">
-        <AuthProvider>{children}</AuthProvider>
+        <Analytics />
+        <AuthProvider>
+          {children}
+          <CookieConsent />
+        </AuthProvider>
       </body>
     </html>
   );

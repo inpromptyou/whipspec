@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyCredentials, generateToken } from "@/lib/auth";
+import { rateLimit, getClientIP } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIP(req);
+    const { success } = rateLimit(`login:${ip}`, 5, 15 * 60 * 1000); // 5 attempts per 15 min
+    if (!success) {
+      return NextResponse.json({ error: "Too many login attempts. Try again in 15 minutes." }, { status: 429 });
+    }
+
     const { email, password } = await req.json();
 
     if (!email || !password) {

@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSql } from "@/lib/db";
+import { rateLimit, getClientIP } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
+    const ip = getClientIP(req);
+    const { success } = rateLimit(`inquiry:${ip}`, 5, 60 * 60 * 1000); // 5 inquiries per hour
+    if (!success) {
+      return NextResponse.json({ error: "Too many inquiries. Try again later." }, { status: 429 });
+    }
     const { slug } = await params;
     const sql = getSql();
 

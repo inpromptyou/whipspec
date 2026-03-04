@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createUser, generateToken } from "@/lib/auth";
+import { rateLimit, getClientIP } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIP(req);
+    const { success } = rateLimit(`signup:${ip}`, 3, 60 * 60 * 1000); // 3 signups per hour per IP
+    if (!success) {
+      return NextResponse.json({ error: "Too many signup attempts. Try again later." }, { status: 429 });
+    }
+
     const { name, email, password, accountType } = await req.json();
 
     if (!name || !email || !password || !accountType) {
