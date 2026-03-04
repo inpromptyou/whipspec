@@ -15,10 +15,10 @@ const GRID_IMAGES = [
 ];
 
 const STATS = [
-  { value: "$58B", label: "Australian aftermarket industry" },
-  { value: "50K+", label: "Automotive businesses" },
-  { value: "19.7M", label: "Vehicles on Australian roads" },
-  { value: "300K", label: "Industry professionals" },
+  { value: "$58B", label: "Australian aftermarket industry", source: "AAAA" },
+  { value: "50K+", label: "Automotive businesses", source: "AAAA" },
+  { value: "19.7M", label: "Vehicles on Australian roads", source: "BITRE" },
+  { value: "300K", label: "Industry professionals", source: "AAAA" },
 ];
 
 export default function HomePage() {
@@ -88,6 +88,9 @@ export default function HomePage() {
                     </p>
                     <p className="text-[12px] text-[#94A3B8] mt-1.5 tracking-wide uppercase">
                       {stat.label}
+                    </p>
+                    <p className="text-[10px] text-[#CBD5E1] mt-0.5">
+                      Source: {stat.source}
                     </p>
                   </div>
                 ))}
@@ -173,7 +176,7 @@ export default function HomePage() {
                 {
                   num: "01",
                   title: "Upload your build",
-                  desc: "Add photos of your car. Our AI drafts the mod list — you just confirm what's right.",
+                  desc: "Add photos of your car. We help draft the mod list — you confirm and refine.",
                 },
                 {
                   num: "02",
@@ -286,10 +289,10 @@ export default function HomePage() {
         <section className="py-20 md:py-28 bg-[#F8FAFC]">
           <div className="max-w-3xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
             <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-[2.75rem] text-[#0F172A] tracking-tight leading-tight mb-4">
-              Join the waitlist.
+              Get early access.
             </h2>
             <p className="text-[15px] text-[#64748B] mb-8 max-w-md mx-auto">
-              Get early access and founding creator status.
+              WhipSpec is in early access. Create your account now and get founding member status.
             </p>
             <WaitlistForm />
           </div>

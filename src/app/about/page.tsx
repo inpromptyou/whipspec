@@ -49,7 +49,7 @@ export default function AboutPage() {
             <h2 className="font-[family-name:var(--font-playfair)] text-2xl text-[#0F172A] tracking-tight mb-8">How it works</h2>
             <div className="space-y-8">
               {[
-                { num: "01", title: "Upload your build", desc: "Add photos and basic details about your car. Our AI helps draft the mod list so you're not typing every part manually." },
+                { num: "01", title: "Upload your build", desc: "Add photos and basic details about your car. We help draft the mod list so you're not typing every part manually." },
                 { num: "02", title: "Tag parts and shops", desc: "Attribute every modification — the brand, the specific product, and the shop that installed it. Everyone gets proper credit." },
                 { num: "03", title: "Share your spec", desc: "Drop the link in your bio. Followers get the full breakdown. Shops get the leads. You stop answering the same questions." },
               ].map((step) => (
