@@ -288,7 +288,7 @@ export default function HomePage() {
               Join the waitlist.
             </h2>
             <p className="text-[15px] text-[#64748B] mb-8 max-w-md mx-auto">
-              We&rsquo;re launching soon. Early members get priority access and founding creator status.
+              Get early access and founding creator status.
             </p>
             <WaitlistForm />
           </div>
