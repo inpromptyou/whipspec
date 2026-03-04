@@ -68,6 +68,7 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
       description: desc,
       url: `https://whipspec.com/user/@${user.username}`,
       type: "profile",
+      images: [{ url: `/api/og?title=${encodeURIComponent(`@${user.username}`)}&subtitle=${encodeURIComponent(desc)}&type=profile`, width: 1200, height: 630 }],
     },
   };
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import CheckoutButton from "@/components/CheckoutButton";
 import Footer from "@/components/Footer";
 
 const TIERS = [
@@ -71,16 +72,24 @@ export default function AdvertisePage() {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/contact"
-                  className={`block text-center text-sm font-medium py-2.5 rounded-lg transition-colors ${
-                    tier.highlight
-                      ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
-                      : "bg-slate-50 text-[#0F172A] hover:bg-slate-100"
-                  }`}
-                >
-                  {tier.price === "Custom" ? "Contact sales" : "Get started"}
-                </Link>
+                {tier.price === "Custom" ? (
+                  <Link
+                    href="/contact"
+                    className="block text-center text-sm font-medium py-2.5 rounded-lg bg-slate-50 text-[#0F172A] hover:bg-slate-100 transition-colors"
+                  >
+                    Contact sales
+                  </Link>
+                ) : (
+                  <CheckoutButton
+                    plan={tier.name === "Shop Pro" ? "shop_pro" : "shop_featured"}
+                    label="Get started"
+                    className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg transition-colors ${
+                      tier.highlight
+                        ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
+                        : "bg-slate-50 text-[#0F172A] hover:bg-slate-100"
+                    }`}
+                  />
+                )}
               </div>
             ))}
           </div>

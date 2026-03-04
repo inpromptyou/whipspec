@@ -57,6 +57,8 @@ export default function DashboardPage() {
   const [style, setStyle] = useState("");
   const [location, setLocation] = useState("");
   const [mods, setMods] = useState<Mod[]>([{ category: "", brand: "", product_name: "", shop_name: "", link: "", notes: "" }]);
+  const [heroImage, setHeroImage] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
 
@@ -126,7 +128,7 @@ export default function DashboardPage() {
         body: JSON.stringify({
           title: title.trim(), make: make.trim() || null, model: model.trim() || null,
           year: year ? parseInt(year) : null, description: description.trim() || null,
-          style: style || null, location: location.trim() || null, mods: validMods,
+          style: style || null, location: location.trim() || null, hero_image: heroImage, mods: validMods,
         }),
       });
       const data = await res.json();
@@ -441,6 +443,56 @@ export default function DashboardPage() {
                   {error && <div className="mb-5 px-4 py-3 rounded-lg bg-red-50 border border-red-100 text-sm text-red-600">{error}</div>}
 
                   <form onSubmit={handleCreate} className="space-y-6">
+                    {/* Hero image upload */}
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Cover Photo</label>
+                      {heroImage ? (
+                        <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-slate-100">
+                          <img src={heroImage} alt="Cover" className="w-full h-full object-cover" />
+                          <button type="button" onClick={() => setHeroImage(null)} className="absolute top-2 right-2 w-8 h-8 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                          </button>
+                        </div>
+                      ) : (
+                        <label className="flex flex-col items-center justify-center aspect-[16/9] rounded-xl border-2 border-dashed border-slate-200 hover:border-[#1E6DF0]/40 bg-slate-50 hover:bg-[#1E6DF0]/[0.02] cursor-pointer transition-all">
+                          <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            setUploadingImage(true);
+                            try {
+                              // Client-side compression
+                              const canvas = document.createElement("canvas");
+                              const img = new window.Image();
+                              img.src = URL.createObjectURL(file);
+                              await new Promise(r => { img.onload = r; });
+                              let w = img.width, h = img.height;
+                              if (w > 1200) { h = Math.round(h * 1200 / w); w = 1200; }
+                              canvas.width = w; canvas.height = h;
+                              canvas.getContext("2d")?.drawImage(img, 0, 0, w, h);
+                              const blob = await new Promise<Blob | null>(r => canvas.toBlob(r, "image/jpeg", 0.8));
+                              if (!blob) throw new Error("Compression failed");
+                              const formData = new FormData();
+                              formData.append("file", blob, "cover.jpg");
+                              const res = await fetch("/api/upload", { method: "POST", body: formData });
+                              const data = await res.json();
+                              if (data.url) setHeroImage(data.url);
+                              else setError(data.error || "Upload failed");
+                            } catch { setError("Failed to upload image"); }
+                            setUploadingImage(false);
+                          }} />
+                          {uploadingImage ? (
+                            <div className="w-6 h-6 border-2 border-[#1E6DF0] border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <>
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                              <p className="text-[13px] text-[#94A3B8] mt-2">Click to upload a cover photo</p>
+                              <p className="text-[10px] text-[#CBD5E1] mt-0.5">JPEG, PNG, WebP up to 10MB</p>
+                            </>
+                          )}
+                        </label>
+                      )}
+                    </div>
+
                     <div>
                       <label className="block text-[12px] font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Build title *</label>
                       <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. The Weekend Warrior N80" className={inputClass} />

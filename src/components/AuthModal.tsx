@@ -17,6 +17,8 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
+  const [forgotMsg, setForgotMsg] = useState("");
 
   const inp = "w-full border border-slate-200 rounded-lg px-3 py-2.5 text-[14px] bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1E6DF0]/20 focus:border-[#1E6DF0]/40";
 
@@ -143,6 +145,24 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
                   {loading ? "Signing in..." : "Sign in"}
                 </button>
               </form>
+              <button onClick={() => setForgotMode(true)} className="block w-full text-center text-[12px] text-[#1E6DF0] hover:text-[#1557CC] mt-3">Forgot password?</button>
+              {forgotMode && (
+                <div className="mt-3 p-3 bg-slate-50 rounded-lg">
+                  {forgotMsg ? (
+                    <p className="text-[12px] text-green-600">{forgotMsg}</p>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" className={`flex-1 border border-slate-200 rounded-lg px-3 py-2 text-[13px] bg-white text-[#0F172A]`} />
+                      <button onClick={async () => {
+                        if (!email) return;
+                        const res = await fetch("/api/auth/forgot", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+                        const d = await res.json();
+                        setForgotMsg(d.message || "Check your email");
+                      }} className="bg-[#0F172A] text-white text-[12px] px-3 rounded-lg">Send</button>
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           ) : (
             <>

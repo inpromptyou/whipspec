@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/lib/auth-context";
+import SearchBar from "./SearchBar";
 
 const MENUS = [
   {
@@ -148,7 +149,8 @@ export default function Nav() {
           </nav>
 
           {/* Right */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
+            <SearchBar />
             {user ? (
               <>
                 <Link

@@ -37,6 +37,7 @@ export const metadata: Metadata = {
     siteName: "WhipSpec",
     locale: "en_AU",
     type: "website",
+    images: [{ url: "/api/og?title=Every+Build+Has+a+Story&subtitle=The+automotive+build+platform+for+Australia", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image", site: "@whipspec" },
 };
