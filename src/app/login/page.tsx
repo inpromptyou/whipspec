@@ -3,13 +3,46 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const inputClass =
     "w-full border border-slate-200 rounded-lg px-3.5 py-2.5 text-sm bg-white text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1E6DF0]/20 focus:border-[#1E6DF0]/40 transition-all";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email.trim()) return setError("Email is required");
+    if (!password) return setError("Password is required");
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Invalid credentials");
+        return;
+      }
+
+      router.push("/dashboard");
+    } catch {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col">
@@ -28,7 +61,13 @@ export default function LoginPage() {
               Sign in to your account.
             </p>
 
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+            {error && (
+              <div className="mb-4 px-3 py-2 rounded-lg bg-red-50 border border-red-100 text-sm text-red-600">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-[12px] font-medium text-[#64748B] mb-1.5">
                   Email
@@ -55,9 +94,10 @@ export default function LoginPage() {
               </div>
               <button
                 type="submit"
-                className="w-full text-white font-medium bg-[#0F172A] hover:bg-[#1E293B] py-2.5 rounded-lg text-sm transition-colors"
+                disabled={loading}
+                className="w-full text-white font-medium bg-[#0F172A] hover:bg-[#1E293B] disabled:opacity-50 disabled:cursor-not-allowed py-2.5 rounded-lg text-sm transition-colors"
               >
-                Sign in
+                {loading ? "Signing in..." : "Sign in"}
               </button>
             </form>
 
