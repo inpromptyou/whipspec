@@ -9,6 +9,9 @@ export async function GET(req: NextRequest) {
   const subtitle = searchParams.get("subtitle") || "The automotive build platform for Australia";
   const type = searchParams.get("type") || "default";
 
+  // Fetch the logo image as base64 for embedding
+  const logoUrl = new URL("/og-logo.jpg", req.url).toString();
+
   return new ImageResponse(
     (
       <div
@@ -37,19 +40,15 @@ export async function GET(req: NextRequest) {
           }}
         />
 
-        {/* Logo text */}
-        <div
-          style={{
-            fontSize: "24px",
-            fontWeight: 700,
-            color: "#1E6DF0",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase" as const,
-            marginBottom: "24px",
-          }}
-        >
-          WHIPSPEC
-        </div>
+        {/* WS Logo */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={logoUrl}
+          alt="WhipSpec"
+          width={120}
+          height={68}
+          style={{ objectFit: "contain", marginBottom: "24px" }}
+        />
 
         {/* Title */}
         <div
