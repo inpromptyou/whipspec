@@ -3,14 +3,13 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
 
-/* ── Placeholder image grid (user will replace with real photos) ── */
 const GRID_IMAGES = [
-  { id: 1, alt: "Build detail", bg: "from-blue-400/30 to-cyan-300/20" },
-  { id: 2, alt: "Engine bay", bg: "from-slate-300/40 to-blue-200/30" },
-  { id: 3, alt: "Interior shot", bg: "from-cyan-300/20 to-blue-500/20" },
-  { id: 4, alt: "Wheel closeup", bg: "from-blue-300/30 to-indigo-300/20" },
-  { id: 5, alt: "Full car shot", bg: "from-slate-200/40 to-cyan-200/30" },
-  { id: 6, alt: "Wrap detail", bg: "from-indigo-300/20 to-blue-400/20" },
+  { id: 1, src: "/hero-1.jpg", alt: "Build detail" },
+  { id: 2, src: "/hero-2.jpg", alt: "Build shot" },
+  { id: 3, src: "/hero-3.jpg", alt: "HiLux beach build" },
+  { id: 4, src: "/hero-4.jpg", alt: "HiLux sunset" },
+  { id: 5, src: "/hero-5.jpg", alt: "LandCruiser and Raptor" },
+  { id: 6, src: "/hero-6.jpg", alt: "Twin HiLux builds" },
 ];
 
 const STATS = [
@@ -30,12 +29,12 @@ export default function HomePage() {
           {/* Image grid background */}
           <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-[2px]">
             {GRID_IMAGES.map((img) => (
-              <div
-                key={img.id}
-                className={`relative bg-gradient-to-br ${img.bg} bg-slate-100`}
-              >
-                {/* Placeholder — user will add real images here */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-200/30" />
+              <div key={img.id} className="relative bg-slate-900">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
               </div>
             ))}
           </div>
