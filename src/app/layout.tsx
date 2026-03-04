@@ -46,9 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
-        <link rel="icon" href="/favicon.png?v=2" type="image/png" />
-        <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+        <link rel="icon" href="/favicon.png?v=3" type="image/png" />
+        <link rel="icon" href="/favicon.jpg?v=3" type="image/jpeg" />
+        <link rel="shortcut icon" href="/favicon.png?v=3" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
       </head>
       <body className="font-sans antialiased bg-white text-[#0F172A]">
         {children}
