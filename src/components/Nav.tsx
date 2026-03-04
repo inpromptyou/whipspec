@@ -7,27 +7,27 @@ import { useAuth } from "@/lib/auth-context";
 
 const MENUS = [
   {
-    label: "For Creators",
+    label: "Builds",
     items: [
-      { href: "/builds", title: "Build Pages", desc: "Publish your full spec sheet" },
       { href: "/discover", title: "Discover", desc: "Browse builds and get inspired" },
+      { href: "/builds", title: "All Builds", desc: "Every tagged build on WhipSpec" },
       { href: "/about", title: "How It Works", desc: "Upload, tag, share" },
     ],
   },
   {
-    label: "For Shops",
+    label: "Shops & Brands",
     items: [
-      { href: "/shops", title: "Shop Pages", desc: "Get credited for your work" },
-      { href: "/advertise", title: "Advertise", desc: "Reach Australia's car scene" },
+      { href: "/shops", title: "Shops", desc: "Workshops and installers" },
+      { href: "/brands", title: "Brands", desc: "Parts and products directory" },
       { href: "/contact", title: "Partner With Us", desc: "Featured placement and leads" },
     ],
   },
   {
-    label: "For Brands",
+    label: "Pricing",
     items: [
-      { href: "/brands", title: "Brand Directory", desc: "Be discovered through builds" },
-      { href: "/advertise", title: "Sponsorships", desc: "Sponsor builds and categories" },
-      { href: "/contact", title: "Contact Sales", desc: "Custom campaigns" },
+      { href: "/pricing", title: "Shop Plans", desc: "Pro and Featured tiers for workshops" },
+      { href: "/pricing", title: "Brand Sponsorships", desc: "Sponsor builds and categories" },
+      { href: "/contact", title: "Enterprise", desc: "Custom packages and campaigns" },
     ],
   },
 ];
@@ -153,23 +153,34 @@ export default function Nav() {
               <>
                 <Link
                   href="/dashboard"
-                  className={`text-[13px] font-medium px-4 py-2 rounded-lg transition-all ${
+                  className={`p-2 rounded-lg transition-all ${
                     scrolled
                       ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
                       : "bg-white text-[#0F172A] hover:bg-white/90"
                   }`}
+                  aria-label="Dashboard"
+                  title="Dashboard"
                 >
-                  Dashboard
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                  </svg>
                 </Link>
                 <button
                   onClick={logout}
-                  className={`text-[13px] tracking-[-0.01em] px-3 py-1.5 rounded-md transition-colors ${
+                  className={`p-2 rounded-md transition-colors ${
                     scrolled
-                      ? "text-[#475569] hover:text-[#0F172A]"
-                      : "text-white/80 hover:text-white"
+                      ? "text-[#94A3B8] hover:text-[#0F172A]"
+                      : "text-white/60 hover:text-white"
                   }`}
+                  aria-label="Log out"
+                  title="Log out"
                 >
-                  Log Out
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                  </svg>
                 </button>
               </>
             ) : (
@@ -232,8 +243,13 @@ export default function Nav() {
             <div className="flex gap-3 pt-3 border-t border-slate-100">
               {user ? (
                 <>
-                  <Link href="/dashboard" className="text-sm font-medium bg-[#0F172A] text-white px-4 py-2 rounded-lg">Dashboard</Link>
-                  <button onClick={() => { setMobileOpen(false); logout(); }} className="text-sm text-[#475569]">Log Out</button>
+                  <Link href="/dashboard" className="flex items-center gap-2 text-sm font-medium bg-[#0F172A] text-white px-4 py-2 rounded-lg">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Dashboard
+                  </Link>
+                  <button onClick={() => { setMobileOpen(false); logout(); }} className="flex items-center gap-1.5 text-sm text-[#94A3B8]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  </button>
                 </>
               ) : (
                 <>

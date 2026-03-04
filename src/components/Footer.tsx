@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
+const currentYear = new Date().getFullYear();
+
 export default function Footer() {
   return (
     <footer className="bg-white border-t border-slate-100">
@@ -17,7 +19,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-[12px] text-[#94A3B8] leading-relaxed max-w-[180px]">
-              Australia&rsquo;s automotive build showcase.
+              The automotive build platform for Australia.
             </p>
           </div>
 
@@ -39,8 +41,9 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-[13px]">
               <li><Link href="/about" className="text-[#64748B] hover:text-[#0F172A] transition-colors">About</Link></li>
+              <li><Link href="/pricing" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Pricing</Link></li>
               <li><Link href="/contact" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Contact</Link></li>
-              <li><Link href="/advertise" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Advertise</Link></li>
+              <li><Link href="/sources" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Sources</Link></li>
             </ul>
           </div>
 
@@ -49,8 +52,8 @@ export default function Footer() {
               Legal
             </h4>
             <ul className="space-y-2.5 text-[13px]">
-              <li><Link href="/privacy" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Privacy</Link></li>
-              <li><Link href="/terms" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Terms</Link></li>
+              <li><Link href="/privacy" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-[#64748B] hover:text-[#0F172A] transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
@@ -72,9 +75,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-slate-100">
+        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[11px] text-[#CBD5E1]">
-            &copy; 2026 WhipSpec Pty Ltd. Made in Australia.
+            &copy; {currentYear} WhipSpec Pty Ltd. All rights reserved. ABN pending.
+          </p>
+          <p className="text-[11px] text-[#CBD5E1]">
+            Made in Australia. Not affiliated with any vehicle manufacturer.
           </p>
         </div>
       </div>
