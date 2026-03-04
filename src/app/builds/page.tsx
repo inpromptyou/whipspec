@@ -5,6 +5,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { ListSkeleton } from "@/components/Skeleton";
+import AuthButton from "@/components/AuthButton";
 
 interface Build {
   id: number; title: string; slug: string; make: string; model: string;
@@ -33,9 +34,9 @@ export default function BuildsPage() {
               <h1 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl text-[#0F172A] tracking-tight mb-1">Builds</h1>
               <p className="text-[14px] text-[#64748B]">Every tagged build on WhipSpec.</p>
             </div>
-            <Link href="/dashboard" className="hidden sm:inline-flex items-center bg-[#0F172A] text-white font-medium text-sm px-5 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
+            <AuthButton href="/dashboard" className="hidden sm:inline-flex items-center bg-[#0F172A] text-white font-medium text-sm px-5 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
               Add your build
-            </Link>
+            </AuthButton>
           </div>
 
           {loading ? (
@@ -46,9 +47,9 @@ export default function BuildsPage() {
               <p className="text-[14px] text-[#64748B] max-w-sm mx-auto mb-6">
                 Be the first to share your build on WhipSpec. Upload photos, tag your mods, and share your spec.
               </p>
-              <Link href="/dashboard" className="inline-flex items-center bg-[#0F172A] text-white font-medium text-sm px-6 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
+              <AuthButton href="/dashboard" className="inline-flex items-center bg-[#0F172A] text-white font-medium text-sm px-6 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
                 Create a build
-              </Link>
+              </AuthButton>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

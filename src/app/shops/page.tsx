@@ -5,6 +5,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { ShopCardSkeleton } from "@/components/Skeleton";
+import AuthButton from "@/components/AuthButton";
 
 interface Shop {
   id: number; name: string; slug: string; description: string; location: string;
@@ -56,9 +57,9 @@ export default function ShopsPage() {
               <p className="text-[14px] text-[#64748B] max-w-sm mx-auto mb-6">
                 Shops get added when creators tag them on builds. Know a great workshop? Tell them about WhipSpec.
               </p>
-              <Link href="/signup" className="inline-flex items-center bg-[#0F172A] text-white font-medium text-sm px-6 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
+              <AuthButton href="/dashboard" className="inline-flex items-center bg-[#0F172A] text-white font-medium text-sm px-6 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
                 Claim your shop
-              </Link>
+              </AuthButton>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">

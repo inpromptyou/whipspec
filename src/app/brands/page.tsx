@@ -10,7 +10,26 @@ interface Brand {
   website: string; logo_url: string; build_count: number;
 }
 
-const CATEGORIES = ["All", "Wheels", "Suspension", "Exhaust", "Aero", "Lighting", "Interior", "Tune", "Wrap / Paint", "4WD"];
+function BrandLogo({ name, logoUrl }: { name: string; logoUrl?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (logoUrl && !failed) {
+    return (
+      <img
+        src={logoUrl}
+        alt={name}
+        className="w-10 h-10 rounded-lg object-contain bg-white border border-slate-100"
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+  return (
+    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center text-[#64748B] text-sm font-bold border border-slate-100">
+      {name.charAt(0)}
+    </div>
+  );
+}
+
+const CATEGORIES = ["All", "Protection", "Recovery", "Suspension", "Roof Racks", "Canopies", "Lighting", "Electrical", "Comms", "Intake", "Towing", "Touring", "Wheels", "Tyres", "Exhaust", "Tune"];
 
 export default function BrandsPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
@@ -78,13 +97,7 @@ export default function BrandsPage() {
               {brands.map((b) => (
                 <div key={b.id} className="bg-white rounded-xl border border-slate-100 p-5 hover:shadow-lg hover:shadow-slate-100/50 transition-all">
                   <div className="flex items-center gap-3 mb-3">
-                    {b.logo_url ? (
-                      <img src={b.logo_url} alt={b.name} className="w-10 h-10 rounded-lg object-contain bg-slate-50" />
-                    ) : (
-                      <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-[#CBD5E1] text-sm font-bold">
-                        {b.name.charAt(0)}
-                      </div>
-                    )}
+                    <BrandLogo name={b.name} logoUrl={b.logo_url} />
                     <div>
                       <h3 className="text-[14px] font-semibold text-[#0F172A]">{b.name}</h3>
                       {b.category && <p className="text-[11px] text-[#94A3B8]">{b.category}</p>}
@@ -93,8 +106,9 @@ export default function BrandsPage() {
                   {b.build_count > 0 && (
                     <p className="text-[12px] text-[#94A3B8]">Used in {b.build_count} build{b.build_count !== 1 ? "s" : ""}</p>
                   )}
+                  {b.description && <p className="text-[12px] text-[#64748B] mb-1.5 line-clamp-2">{b.description}</p>}
                   {b.website && (
-                    <a href={b.website} target="_blank" rel="noopener noreferrer" className="text-[12px] text-[#1E6DF0] hover:text-[#3B82F6] mt-1 inline-block">Visit website</a>
+                    <a href={`https://${b.website.replace(/^https?:\/\//, "")}`} target="_blank" rel="noopener noreferrer" className="text-[12px] text-[#1E6DF0] hover:text-[#3B82F6] inline-block">{b.website.replace(/^https?:\/\//, "")}</a>
                   )}
                 </div>
               ))}

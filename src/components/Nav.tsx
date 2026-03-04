@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import AuthModal from "./AuthModal";
+import { useAuth } from "@/lib/auth-context";
 
 const MENUS = [
   {
@@ -103,7 +103,7 @@ export default function Nav() {
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
+  const { user, showAuthModal, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -149,26 +149,53 @@ export default function Nav() {
 
           {/* Right */}
           <div className="hidden lg:flex items-center gap-3">
-            <button
-              onClick={() => setShowAuth(true)}
-              className={`text-[13px] tracking-[-0.01em] px-3 py-1.5 rounded-md transition-colors ${
-                scrolled
-                  ? "text-[#475569] hover:text-[#0F172A]"
-                  : "text-white/80 hover:text-white"
-              }`}
-            >
-              Log In
-            </button>
-            <button
-              onClick={() => setShowAuth(true)}
-              className={`text-[13px] font-medium px-4 py-2 rounded-lg transition-all ${
-                scrolled
-                  ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
-                  : "bg-white text-[#0F172A] hover:bg-white/90"
-              }`}
-            >
-              Sign Up
-            </button>
+            {user ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={`text-[13px] font-medium px-4 py-2 rounded-lg transition-all ${
+                    scrolled
+                      ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
+                      : "bg-white text-[#0F172A] hover:bg-white/90"
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={logout}
+                  className={`text-[13px] tracking-[-0.01em] px-3 py-1.5 rounded-md transition-colors ${
+                    scrolled
+                      ? "text-[#475569] hover:text-[#0F172A]"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={showAuthModal}
+                  className={`text-[13px] tracking-[-0.01em] px-3 py-1.5 rounded-md transition-colors ${
+                    scrolled
+                      ? "text-[#475569] hover:text-[#0F172A]"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  Log In
+                </button>
+                <button
+                  onClick={showAuthModal}
+                  className={`text-[13px] font-medium px-4 py-2 rounded-lg transition-all ${
+                    scrolled
+                      ? "bg-[#0F172A] text-white hover:bg-[#1E293B]"
+                      : "bg-white text-[#0F172A] hover:bg-white/90"
+                  }`}
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
           </div>
 
           {/* Mobile toggle */}
@@ -203,15 +230,23 @@ export default function Nav() {
               </div>
             ))}
             <div className="flex gap-3 pt-3 border-t border-slate-100">
-              <button onClick={() => { setMobileOpen(false); setShowAuth(true); }} className="text-sm text-[#475569]">Log In</button>
-              <button onClick={() => { setMobileOpen(false); setShowAuth(true); }} className="text-sm font-medium bg-[#0F172A] text-white px-4 py-2 rounded-lg">Sign Up</button>
+              {user ? (
+                <>
+                  <Link href="/dashboard" className="text-sm font-medium bg-[#0F172A] text-white px-4 py-2 rounded-lg">Dashboard</Link>
+                  <button onClick={() => { setMobileOpen(false); logout(); }} className="text-sm text-[#475569]">Log Out</button>
+                </>
+              ) : (
+                <>
+                  <button onClick={() => { setMobileOpen(false); showAuthModal(); }} className="text-sm text-[#475569]">Log In</button>
+                  <button onClick={() => { setMobileOpen(false); showAuthModal(); }} className="text-sm font-medium bg-[#0F172A] text-white px-4 py-2 rounded-lg">Sign Up</button>
+                </>
+              )}
             </div>
           </div>
         )}
       </div>
     </header>
 
-    {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>
   );
 }

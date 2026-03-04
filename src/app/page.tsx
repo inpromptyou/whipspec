@@ -2,6 +2,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import WaitlistForm from "@/components/WaitlistForm";
+import AuthButton from "@/components/AuthButton";
 
 const GRID_IMAGES = [
   { id: 1, src: "/hero-3.jpg", alt: "HiLux beach build" },
@@ -57,12 +58,12 @@ export default function HomePage() {
               Australia&rsquo;s best car builds.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link
-                href="/signup"
+              <AuthButton
+                href="/dashboard"
                 className="inline-flex items-center justify-center bg-white text-[#0F172A] font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/90 transition-colors"
               >
                 Get Started
-              </Link>
+              </AuthButton>
               <Link
                 href="/discover"
                 className="inline-flex items-center justify-center border border-white/30 text-white font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/10 transition-colors"
@@ -274,12 +275,12 @@ export default function HomePage() {
                   New customers discover you through the cars you&rsquo;ve worked on — not through paid ads.
                   Claim your page, showcase your work, receive inquiries.
                 </p>
-                <Link
-                  href="/signup"
+                <AuthButton
+                  href="/dashboard"
                   className="inline-flex items-center justify-center bg-white text-[#0F172A] font-medium text-sm px-7 py-3 rounded-lg hover:bg-white/90 transition-colors"
                 >
                   Claim Your Shop Page
-                </Link>
+                </AuthButton>
               </div>
             </div>
           </div>
