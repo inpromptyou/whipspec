@@ -85,6 +85,16 @@ export async function POST(req: NextRequest) {
     if (!title) return NextResponse.json({ error: "Title is required" }, { status: 400 });
 
     const sql = getSql();
+
+    // Enforce build limits for free tier (3 builds max)
+    const { hasEntitlement } = await import("@/lib/billing");
+    const hasUnlimited = await hasEntitlement(user.id, "unlimited_builds");
+    if (!hasUnlimited) {
+      const countRows = await sql`SELECT COUNT(*) as count FROM builds WHERE user_id = ${user.id}`;
+      if (Number(countRows[0].count) >= 3) {
+        return NextResponse.json({ error: "Free accounts can publish up to 3 builds. Upgrade to Creator Plus for unlimited builds." }, { status: 403 });
+      }
+    }
     const slug = slugify(title);
 
     const rows = await sql`

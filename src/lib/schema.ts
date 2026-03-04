@@ -223,5 +223,34 @@ export async function ensureTables() {
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS subscription_plan VARCHAR(50)`;
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS subscription_status VARCHAR(20) DEFAULT 'inactive'`;
 
-  return { success: true, tables: ["users", "sessions", "waitlist", "shops", "brands", "builds", "build_mods", "inquiries", "sponsorships", "platform_metrics", "sponsorship_events", "shop_tags", "password_resets"] };
+  // Stripe webhook idempotency
+  await sql`
+    CREATE TABLE IF NOT EXISTS stripe_webhook_events (
+      event_id VARCHAR(255) PRIMARY KEY,
+      event_type VARCHAR(100) NOT NULL,
+      processed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    )
+  `;
+
+  // Billing events (qualified inquiries, usage tracking)
+  await sql`
+    CREATE TABLE IF NOT EXISTS billing_events (
+      id SERIAL PRIMARY KEY,
+      event_type VARCHAR(50) NOT NULL,
+      entity_type VARCHAR(50) NOT NULL,
+      entity_id INTEGER NOT NULL,
+      shop_id INTEGER,
+      amount NUMERIC(10,2),
+      currency VARCHAR(3) DEFAULT 'AUD',
+      stripe_usage_record_id VARCHAR(255),
+      metadata JSONB DEFAULT '{}',
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+      UNIQUE(event_type, entity_type, entity_id)
+    )
+  `;
+
+  // Featured shop expiry
+  await sql`ALTER TABLE shops ADD COLUMN IF NOT EXISTS featured_until TIMESTAMP WITH TIME ZONE`;
+
+  return { success: true, tables: ["users", "sessions", "waitlist", "shops", "brands", "builds", "build_mods", "inquiries", "sponsorships", "platform_metrics", "sponsorship_events", "shop_tags", "password_resets", "stripe_webhook_events", "billing_events"] };
 }

@@ -23,10 +23,18 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ slu
       return NextResponse.json({ error: "Name, email, and message are required" }, { status: 400 });
     }
 
-    await sql`
+    const rows = await sql`
       INSERT INTO inquiries (shop_id, name, email, phone, car_details, message, budget)
       VALUES (${shops[0].id}, ${name}, ${email}, ${phone || null}, ${car_details || null}, ${message}, ${budget || null})
+      RETURNING id
     `;
+
+    // Check if inquiry qualifies for billing
+    const { isQualifiedInquiry, recordBillableInquiry } = await import("@/lib/billing");
+    const qualification = await isQualifiedInquiry({ shop_id: shops[0].id, name, email, phone, message, car_details });
+    if (qualification.qualified && rows[0]?.id) {
+      await recordBillableInquiry(rows[0].id, shops[0].id);
+    }
 
     return NextResponse.json({ success: true, message: "Inquiry sent" });
   } catch (error: unknown) {
