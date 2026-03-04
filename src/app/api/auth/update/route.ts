@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const payload = verifyToken(token);
     if (!payload) return NextResponse.json({ error: "Invalid token" }, { status: 401 });
 
-    const { name, username, location, bio, instagram } = await req.json();
+    const { name, username, location, bio, instagram, tiktok, facebook, snapchat, youtube, twitter, website } = await req.json();
     const sql = getSql();
 
     // Validate username if provided
@@ -32,7 +32,13 @@ export async function POST(req: NextRequest) {
         username = COALESCE(${username ? username.toLowerCase().replace(/[^a-z0-9_]/g, "") : null}, username),
         location = ${location || null},
         bio = ${bio || null},
-        instagram = ${instagram || null},
+        instagram = ${instagram ?? null},
+        tiktok = ${tiktok ?? null},
+        facebook = ${facebook ?? null},
+        snapchat = ${snapchat ?? null},
+        youtube = ${youtube ?? null},
+        twitter = ${twitter ?? null},
+        website = ${website ?? null},
         updated_at = NOW()
       WHERE id = ${payload.userId}
     `;

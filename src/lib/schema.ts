@@ -21,8 +21,12 @@ export async function ensureTables() {
     )
   `;
 
-  // Add username column if missing
+  // Add missing user columns
   await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS username VARCHAR(50) UNIQUE`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS facebook VARCHAR(255)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS snapchat VARCHAR(255)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS youtube VARCHAR(255)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS twitter VARCHAR(255)`;
 
   await sql`
     CREATE TABLE IF NOT EXISTS sessions (

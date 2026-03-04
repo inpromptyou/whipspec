@@ -79,7 +79,8 @@ export async function getUserFromToken(token: string): Promise<User | null> {
 
   const sql = getSql();
   const rows = await sql`
-    SELECT id, name, username, email, account_type, avatar_url, bio, location, created_at
+    SELECT id, name, username, email, account_type, avatar_url, bio, location,
+           instagram, tiktok, facebook, snapchat, youtube, twitter, website, created_at
     FROM users WHERE id = ${payload.userId}
   `;
 
