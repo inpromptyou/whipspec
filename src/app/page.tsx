@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import WaitlistForm from "@/components/WaitlistForm";
+
 import AuthButton from "@/components/AuthButton";
 import HomeRouter from "@/components/HomeRouter";
 import { OrganizationSchema, WebsiteSchema } from "@/components/StructuredData";
@@ -13,7 +13,7 @@ const GRID_IMAGES = [
   { id: 4, src: "/hero-13.jpg", alt: "HSV GTS parking garage" },
   { id: 5, src: "/hero-12.jpg", alt: "MINT 4X4 Patrol outback" },
   { id: 6, src: "/hero-8.jpg", alt: "VZ Ute slammed by the river" },
-  { id: 7, src: "/hero-9.jpg", alt: "VE Ute colour-shift teal" },
+  { id: 7, src: "/hero-16.jpg", alt: "White HiLux beach sunset" },
   { id: 8, src: "/hero-15.jpg", alt: "Yellow VL Commodore TUFBT1" },
 ];
 
@@ -310,16 +310,55 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ─── Final CTA ─── */}
-        <section className="py-20 md:py-28 bg-[#F8FAFC]">
-          <div className="max-w-3xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-[2.75rem] text-[#0F172A] tracking-tight leading-tight mb-4">
-              Get early access.
-            </h2>
-            <p className="text-[15px] text-[#64748B] mb-8 max-w-md mx-auto">
-              WhipSpec is in early access. Create your account now and get founding member status.
-            </p>
-            <WaitlistForm />
+        {/* ─── Business CTA ─── */}
+        <section className="py-20 md:py-28 bg-gradient-to-b from-[#0F172A] to-[#1E293B] relative overflow-hidden">
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
+          <div className="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid md:grid-cols-2 gap-10 items-center">
+              <div>
+                <p className="text-[11px] font-semibold text-[#1E6DF0] tracking-[0.25em] uppercase mb-4">For Shops & Brands</p>
+                <h2 className="font-[family-name:var(--font-playfair)] text-3xl md:text-[2.5rem] text-white tracking-tight leading-tight mb-4">
+                  Your work. Attributed.
+                </h2>
+                <p className="text-[15px] text-[#94A3B8] leading-relaxed mb-6">
+                  Every build on WhipSpec tags the shops that did the work and the brands behind the parts.
+                  Get discovered by enthusiasts actively looking for their next build.
+                </p>
+                <div className="space-y-3 mb-8">
+                  {[
+                    "Claimed shop profile with your builds as a portfolio",
+                    "Direct enquiries from enthusiasts in your area",
+                    "Featured placement to reach more customers",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-3">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mt-0.5 flex-shrink-0"><circle cx="12" cy="12" r="12" fill="#1E6DF0" fillOpacity="0.15"/><path d="M8 12l3 3 5-5" stroke="#1E6DF0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      <span className="text-[14px] text-[#CBD5E1]">{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <AuthButton href="/dashboard" className="inline-flex items-center bg-[#1E6DF0] text-white text-[13px] font-medium px-6 py-2.5 rounded-lg hover:bg-[#1557CC] transition-colors">
+                    Claim your shop
+                  </AuthButton>
+                  <a href="/advertise" className="inline-flex items-center border border-white/20 text-white text-[13px] font-medium px-6 py-2.5 rounded-lg hover:bg-white/5 transition-colors">
+                    View pricing
+                  </a>
+                </div>
+              </div>
+              <div className="hidden md:grid grid-cols-2 gap-3">
+                {[
+                  { label: "Shops on platform", value: "100+" },
+                  { label: "Builds published", value: "500+" },
+                  { label: "Monthly visitors", value: "Growing" },
+                  { label: "Shop enquiries", value: "Free tier" },
+                ].map((stat) => (
+                  <div key={stat.label} className="bg-white/[0.05] border border-white/[0.06] rounded-xl p-5 text-center">
+                    <p className="text-xl font-semibold text-white mb-1">{stat.value}</p>
+                    <p className="text-[11px] text-[#64748B]">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </main>
