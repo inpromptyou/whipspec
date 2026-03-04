@@ -10,6 +10,9 @@ const GRID_IMAGES = [
   { id: 4, src: "/hero-4.jpg", alt: "HiLux sunset" },
   { id: 5, src: "/hero-5.jpg", alt: "LandCruiser and Raptor" },
   { id: 6, src: "/hero-6.jpg", alt: "Twin HiLux builds" },
+  { id: 7, src: "/hero-7.jpg", alt: "Twin HiLux on the sand" },
+  { id: 8, src: "/hero-8.jpg", alt: "VZ Ute slammed by the river" },
+  { id: 9, src: "/hero-9.jpg", alt: "VE Ute colour-shift teal" },
 ];
 
 const STATS = [
@@ -27,7 +30,7 @@ export default function HomePage() {
         {/* ─── Hero: ShopMy-style image grid with overlaid text ─── */}
         <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
           {/* Image grid background */}
-          <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-[2px]">
+          <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 gap-[2px]">
             {GRID_IMAGES.map((img) => (
               <div key={img.id} className="relative bg-slate-900">
                 <img
