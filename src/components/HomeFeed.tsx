@@ -115,7 +115,7 @@ export default function HomeFeed() {
           </Link>
           {(user as unknown as { username?: string }).username && (
             <button
-              onClick={() => navigator.clipboard.writeText(`https://whipspec.com/@${(user as unknown as { username?: string }).username}`)}
+              onClick={() => navigator.clipboard.writeText(`https://whipspec.com/user/@${(user as unknown as { username?: string }).username}`)}
               className="inline-flex items-center gap-1.5 border border-slate-200 text-[#64748B] text-[12px] font-semibold uppercase tracking-[0.15em] px-4 py-2 hover:border-[#1E6DF0] hover:text-[#1E6DF0] transition-colors"
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>

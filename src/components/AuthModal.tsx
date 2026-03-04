@@ -14,6 +14,7 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
 
   // Form fields
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -50,6 +51,8 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
     e.preventDefault();
     setError("");
     if (!name.trim()) return setError("Name is required");
+    if (!username.trim() || username.trim().length < 3) return setError("Username must be at least 3 characters");
+    if (!/^[a-z0-9_]+$/.test(username.trim())) return setError("Username: lowercase letters, numbers, underscores only");
     if (!email.trim()) return setError("Email is required");
     if (password.length < 8) return setError("Password must be at least 8 characters");
     if (!accountType) return setError("Please select what describes you best");
@@ -61,6 +64,7 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
+          username: username.trim().toLowerCase(),
           email: email.trim(),
           password,
           accountType: accountType === "buyer" ? "creator" : accountType,
@@ -217,6 +221,14 @@ export default function AuthModal({ onClose }: { onClose: () => void }) {
                 <div>
                   <label className="block text-[12px] font-medium text-[#64748B] mb-1.5">Name</label>
                   <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className={inputClass} />
+                </div>
+                <div>
+                  <label className="block text-[12px] font-medium text-[#64748B] mb-1.5">Username</label>
+                  <div className="flex items-center">
+                    <span className="text-[14px] text-[#94A3B8] mr-1">@</span>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))} placeholder="yourname" className={inputClass} />
+                  </div>
+                  {username && <p className="text-[10px] text-[#94A3B8] mt-1">whipspec.com/user/@{username}</p>}
                 </div>
                 <div>
                   <label className="block text-[12px] font-medium text-[#64748B] mb-1.5">Email</label>

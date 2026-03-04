@@ -10,13 +10,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Too many signup attempts. Try again later." }, { status: 429 });
     }
 
-    const { name, email, password, accountType } = await req.json();
+    const { name, username, email, password, accountType } = await req.json();
 
     if (!name || !email || !password || !accountType) {
       return NextResponse.json(
         { error: "Name, email, password, and account type are required" },
         { status: 400 }
       );
+    }
+
+    // Validate username if provided
+    const cleanUsername = username ? username.toLowerCase().replace(/[^a-z0-9_]/g, "") : email.split("@")[0].toLowerCase().replace(/[^a-z0-9_]/g, "");
+    if (cleanUsername.length < 3 || cleanUsername.length > 30) {
+      return NextResponse.json({ error: "Username must be 3-30 characters" }, { status: 400 });
     }
 
     if (password.length < 8) {
@@ -33,7 +39,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await createUser(name, email.toLowerCase().trim(), password, accountType);
+    const user = await createUser(name, email.toLowerCase().trim(), password, accountType, cleanUsername);
     const token = generateToken(user);
 
     const response = NextResponse.json({ user, token });
@@ -49,6 +55,9 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Unknown error";
     if (msg.includes("unique") || msg.includes("duplicate")) {
+      if (msg.includes("username")) {
+        return NextResponse.json({ error: "That username is already taken" }, { status: 409 });
+      }
       return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
     }
     return NextResponse.json({ error: msg }, { status: 500 });

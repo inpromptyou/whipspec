@@ -567,7 +567,7 @@ export default function DashboardPage() {
                         <input type="text" value={settingsUsername} onChange={(e) => setSettingsUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))} placeholder="yourname" className={inputClass} />
                       </div>
                       {settingsUsername && (
-                        <p className="text-[11px] text-[#94A3B8] mt-1">Your profile: whipspec.com/@{settingsUsername}</p>
+                        <p className="text-[11px] text-[#94A3B8] mt-1">Your profile: whipspec.com/user/@{settingsUsername}</p>
                       )}
                     </div>
                     <div>

@@ -21,14 +21,15 @@ export async function createUser(
   name: string,
   email: string,
   password: string,
-  accountType: "creator" | "shop"
+  accountType: "creator" | "shop",
+  username?: string
 ): Promise<User> {
   const sql = getSql();
   const hash = await bcrypt.hash(password, 12);
 
   const rows = await sql`
     INSERT INTO users (name, email, password_hash, account_type, username)
-    VALUES (${name}, ${email}, ${hash}, ${accountType}, ${email.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, "")})
+    VALUES (${name}, ${email}, ${hash}, ${accountType}, ${username || email.split("@")[0].toLowerCase().replace(/[^a-z0-9_]/g, "")})
     RETURNING id, name, username, email, account_type, avatar_url, bio, location, created_at
   `;
 
