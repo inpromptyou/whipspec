@@ -37,17 +37,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async redirects() {
-    return [
-      // www → non-www
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.whipspec.com" }],
-        destination: "https://whipspec.com/:path*",
-        permanent: true,
-      },
-    ];
-  },
 };
 
 export default nextConfig;
