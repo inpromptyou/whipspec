@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
+const bebasNeue = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-instrument-serif",
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -16,12 +16,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "WhipSpec — Every Build Has a Story",
-  description: "The platform where Australia's best builds get the credit they deserve. Parts, shops, brands — all in one place.",
+  title: "WhipSpec — Know What You're Looking At",
+  description: "Australia's automotive build showcase. Discover the exact parts, shops, and brands behind the builds you love.",
   metadataBase: new URL("https://whipspec.com"),
   openGraph: {
-    title: "WhipSpec — Every Build Has a Story",
-    description: "Discover the exact parts, shops, and brands behind Australia's best car builds.",
+    title: "WhipSpec — Know What You're Looking At",
+    description: "Australia's automotive build showcase. Parts, shops, brands — all in one place.",
     url: "https://whipspec.com",
     siteName: "WhipSpec",
     locale: "en_AU",
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased">{children}</body>
+    <html lang="en" className={`${bebasNeue.variable} ${inter.variable}`}>
+      <body className="font-sans antialiased bg-[#0A0A0A] text-white">{children}</body>
     </html>
   );
 }

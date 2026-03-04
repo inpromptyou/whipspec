@@ -1,26 +1,33 @@
 export const ds = {
   colors: {
-    bg: "#FAFAF8",
-    card: "#F5F4F0",
-    cardHover: "#F0EFE9",
-    border: "#E8E6E1",
-    borderLight: "#F0EEE9",
+    bg: "#0A0A0A",
+    surface: "#111111",
+    surfaceHover: "#1A1A1A",
+    card: "#141414",
+    cardHover: "#1C1C1C",
+    border: "#222222",
+    borderLight: "#2A2A2A",
 
-    text: "#1A1A1A",
-    textBody: "#4A4A4A",
-    textSecondary: "#9A9A9A",
-    textMuted: "#B5B3AE",
+    text: "#FFFFFF",
+    textBody: "#E0E0E0",
+    textSecondary: "#888888",
+    textMuted: "#555555",
 
-    accent: "#2D5A3D",
-    accentHover: "#3A7A52",
-    accentLight: "#E8F0EB",
-    accentMuted: "#2D5A3D1A",
+    // Cyan accent — matches the WS logo gradient
+    accent: "#00B4D8",
+    accentHover: "#00D4FF",
+    accentDim: "#00B4D840",
+    accentGlow: "#00B4D820",
+
+    // Secondary blue for gradients
+    blue: "#0077B6",
+    blueLight: "#48CAE4",
 
     white: "#FFFFFF",
-    black: "#0A0A0A",
+    black: "#000000",
   },
   fonts: {
-    serif: "var(--font-instrument-serif)",
+    display: "var(--font-bebas)",
     sans: "var(--font-inter)",
   },
 } as const;

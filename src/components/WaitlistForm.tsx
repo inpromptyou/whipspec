@@ -9,13 +9,12 @@ export default function WaitlistForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !email.includes("@")) return;
-    // TODO: wire to API
     setSubmitted(true);
   };
 
   if (submitted) {
     return (
-      <p className="text-sm text-[#2D5A3D] font-medium">
+      <p className="text-sm text-[#00B4D8] font-medium">
         You&rsquo;re on the list. We&rsquo;ll be in touch.
       </p>
     );
@@ -28,11 +27,11 @@ export default function WaitlistForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="your@email.com"
-        className="flex-1 border border-[#E8E6E1] rounded-md px-3.5 py-2.5 text-sm bg-white text-[#1A1A1A] placeholder-[#B5B3AE] focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/20 focus:border-[#2D5A3D]/40"
+        className="flex-1 border border-white/[0.08] rounded px-3.5 py-2.5 text-sm bg-white/[0.04] text-white placeholder-[#555] focus:outline-none focus:ring-2 focus:ring-[#00B4D8]/20 focus:border-[#00B4D8]/40"
       />
       <button
         type="submit"
-        className="text-white bg-[#2D5A3D] hover:bg-[#3A7A52] px-5 py-2.5 rounded-md text-sm font-medium transition-colors shrink-0"
+        className="text-black font-medium bg-[#00B4D8] hover:bg-[#00D4FF] px-5 py-2.5 rounded text-sm transition-colors shrink-0"
       >
         Join the waitlist
       </button>
