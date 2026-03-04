@@ -10,8 +10,23 @@ export async function GET(req: NextRequest) {
     const style = searchParams.get("style");
     const q = searchParams.get("q");
     const userId = searchParams.get("user_id");
+    const mine = searchParams.get("mine");
 
     let builds;
+
+    // If ?mine=1, return the current user's builds (all statuses)
+    if (mine) {
+      const token = req.cookies.get("token")?.value;
+      if (!token) return NextResponse.json({ builds: [] });
+      const user = await getUserFromToken(token);
+      if (!user) return NextResponse.json({ builds: [] });
+      builds = await sql`
+        SELECT b.*, u.name as creator_name, u.avatar_url as creator_avatar
+        FROM builds b JOIN users u ON b.user_id = u.id
+        WHERE b.user_id = ${user.id} ORDER BY b.created_at DESC LIMIT 100
+      `;
+      return NextResponse.json({ builds });
+    }
 
     if (userId) {
       builds = await sql`
