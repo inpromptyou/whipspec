@@ -5,20 +5,28 @@ import type { BrandRow } from "@/lib/queries";
 
 const CATEGORIES = ["All", "Protection", "Recovery", "Suspension", "Roof Racks", "Canopies", "Lighting", "Electrical", "Comms", "Intake", "Towing", "Touring", "Wheels", "Tyres", "Exhaust", "Tune"];
 
-function BrandLogo({ name, logoUrl }: { name: string; logoUrl?: string }) {
-  const [failed, setFailed] = useState(false);
-  if (logoUrl && !failed) {
+function BrandLogo({ name, logoUrl, website }: { name: string; logoUrl?: string; website?: string }) {
+  const [attempt, setAttempt] = useState(0);
+
+  // Try: 1) Clearbit logo, 2) Google S2 favicon, 3) initials fallback
+  const domain = website?.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  const sources = [
+    logoUrl,
+    domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128` : null,
+  ].filter(Boolean) as string[];
+
+  if (attempt < sources.length) {
     return (
       <img
-        src={logoUrl}
+        src={sources[attempt]}
         alt={name}
-        className="w-10 h-10 rounded-lg object-contain bg-white border border-slate-100"
-        onError={() => setFailed(true)}
+        className="w-10 h-10 rounded-lg object-contain bg-white border border-slate-100 p-0.5"
+        onError={() => setAttempt(a => a + 1)}
       />
     );
   }
   return (
-    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center text-[#64748B] text-sm font-bold border border-slate-100">
+    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#0F172A] to-[#1E293B] flex items-center justify-center text-white text-sm font-bold border border-slate-100">
       {name.charAt(0)}
     </div>
   );
@@ -77,7 +85,7 @@ export default function BrandsClient({ initialBrands }: { initialBrands: BrandRo
           {filtered.map((b) => (
             <div key={b.id} className="bg-white rounded-xl border border-slate-100 p-5 hover:shadow-lg hover:shadow-slate-100/50 transition-all">
               <div className="flex items-center gap-3 mb-3">
-                <BrandLogo name={b.name} logoUrl={b.logo_url} />
+                <BrandLogo name={b.name} logoUrl={b.logo_url} website={b.website} />
                 <div>
                   <h3 className="text-[14px] font-semibold text-[#0F172A]">{b.name}</h3>
                   {b.category && <p className="text-[11px] text-[#94A3B8]">{b.category}</p>}

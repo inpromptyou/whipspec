@@ -1,32 +1,7 @@
 "use client";
 
-import { useAuth } from "@/lib/auth-context";
-import HomeFeed from "./HomeFeed";
-import Nav from "./Nav";
-import Footer from "./Footer";
-
+// Homepage always shows the marketing page regardless of auth state.
+// Logged-in users get HomeFeed via /dashboard.
 export default function HomeRouter({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <>
-        <Nav />
-        <div className="min-h-screen" />
-      </>
-    );
-  }
-
-  if (user) {
-    return (
-      <>
-        <Nav />
-        <HomeFeed />
-        <Footer />
-      </>
-    );
-  }
-
-  // Not logged in — show the marketing homepage (children)
   return <>{children}</>;
 }

@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "logo.clearbit.com" },
+      { protocol: "https", hostname: "www.google.com" },
     ],
   },
   async headers() {
@@ -26,7 +27,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob: https://logo.clearbit.com https://images.unsplash.com https://www.google-analytics.com",
+              "img-src 'self' data: blob: https://logo.clearbit.com https://www.google.com https://images.unsplash.com https://www.google-analytics.com",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https://www.google-analytics.com https://analytics.google.com",
               "frame-ancestors 'none'",

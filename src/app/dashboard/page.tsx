@@ -35,10 +35,10 @@ const TABS = [
 
 // Placeholder car images for empty states and templates
 const TEMPLATE_BUILDS = [
-  { title: "200 Series LandCruiser — Touring", make: "Toyota", model: "LandCruiser 200", year: 2019, style: "4WD / Touring", img: "/hero-3.jpg" },
-  { title: "N80 HiLux — Daily Driver", make: "Toyota", model: "HiLux SR5", year: 2022, style: "4WD / Touring", img: "/hero-4.jpg" },
-  { title: "Ford Ranger Raptor — Weekend", make: "Ford", model: "Ranger Raptor", year: 2023, style: "4WD / Touring", img: "/hero-5.jpg" },
-  { title: "VE SS Ute — Street Build", make: "Holden", model: "Commodore VE SS", year: 2011, style: "Street", img: "/hero-10.jpg" },
+  { title: "200 Series LandCruiser — Full Touring Rig", make: "Toyota", model: "LandCruiser 200", year: 2019, style: "4WD / Touring", img: "/hero-3.jpg" },
+  { title: "N80 HiLux SR5 — Built Not Bought", make: "Toyota", model: "HiLux SR5", year: 2022, style: "4WD / Touring", img: "/hero-4.jpg" },
+  { title: "Ranger Raptor — Weekend Weapon", make: "Ford", model: "Ranger Raptor", year: 2023, style: "4WD / Touring", img: "/hero-5.jpg" },
+  { title: "VE SS Ute — Street Machine", make: "Holden", model: "Commodore VE SS", year: 2011, style: "Street", img: "/hero-10.jpg" },
 ];
 
 export default function DashboardPage() {
@@ -195,10 +195,10 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
               <h1 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#0F172A] tracking-tight">
-                Welcome back, {user.name.split(" ")[0]}
+                Your Garage
               </h1>
               <p className="text-[14px] text-[#64748B] mt-1">
-                {user.account_type === "shop" ? "Manage your shop and track inquiries" : "Build, share, and get discovered"}
+                {user.account_type === "shop" ? "Manage your workshop and track leads" : "Your builds, your specs, your way"}
               </p>
             </div>
           </div>
@@ -250,29 +250,29 @@ export default function DashboardPage() {
                     <div className="w-10 h-10 rounded-lg bg-[#1E6DF0]/[0.06] flex items-center justify-center mb-3 group-hover:bg-[#1E6DF0]/[0.12] transition-colors">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5"><path d="M12 4v16m8-8H4"/></svg>
                     </div>
-                    <p className="text-[14px] font-medium text-[#0F172A]">Create a build</p>
-                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Share your spec sheet</p>
+                    <p className="text-[14px] font-medium text-[#0F172A]">Drop a build</p>
+                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Post your full spec sheet</p>
                   </button>
                   <Link href="/discover" className="bg-white rounded-xl border border-slate-100 p-5 text-left hover:shadow-md hover:border-[#1E6DF0]/20 transition-all group">
                     <div className="w-10 h-10 rounded-lg bg-[#1E6DF0]/[0.06] flex items-center justify-center mb-3 group-hover:bg-[#1E6DF0]/[0.12] transition-colors">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </div>
                     <p className="text-[14px] font-medium text-[#0F172A]">Discover builds</p>
-                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Browse the community</p>
+                    <p className="text-[12px] text-[#94A3B8] mt-0.5">See what others are running</p>
                   </Link>
                   <Link href="/shops" className="bg-white rounded-xl border border-slate-100 p-5 text-left hover:shadow-md hover:border-[#1E6DF0]/20 transition-all group">
                     <div className="w-10 h-10 rounded-lg bg-[#1E6DF0]/[0.06] flex items-center justify-center mb-3 group-hover:bg-[#1E6DF0]/[0.12] transition-colors">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                     </div>
-                    <p className="text-[14px] font-medium text-[#0F172A]">Find shops</p>
-                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Workshops near you</p>
+                    <p className="text-[14px] font-medium text-[#0F172A]">Find a workshop</p>
+                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Trusted shops and fitters</p>
                   </Link>
                   <Link href="/brands" className="bg-white rounded-xl border border-slate-100 p-5 text-left hover:shadow-md hover:border-[#1E6DF0]/20 transition-all group">
                     <div className="w-10 h-10 rounded-lg bg-[#1E6DF0]/[0.06] flex items-center justify-center mb-3 group-hover:bg-[#1E6DF0]/[0.12] transition-colors">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5"><path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                     </div>
                     <p className="text-[14px] font-medium text-[#0F172A]">Browse brands</p>
-                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Parts and products</p>
+                    <p className="text-[12px] text-[#94A3B8] mt-0.5">Gear worth running</p>
                   </Link>
                 </div>
               </div>
@@ -310,8 +310,8 @@ export default function DashboardPage() {
                 </div>
               ) : (
                 <div>
-                  <h2 className="text-[15px] font-semibold text-[#0F172A] mb-2">Get Inspired</h2>
-                  <p className="text-[13px] text-[#64748B] mb-4">Popular build styles from the community. Start one of your own.</p>
+                  <h2 className="text-[15px] font-semibold text-[#0F172A] mb-2">Start Your First Build</h2>
+                  <p className="text-[13px] text-[#64748B] mb-4">Pick a template or start from scratch. Show the scene what you're running.</p>
                   <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {TEMPLATE_BUILDS.map((t) => (
                       <button
@@ -518,8 +518,8 @@ export default function DashboardPage() {
             <div className="max-w-2xl">
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="px-6 md:px-8 py-5 border-b border-slate-100">
-                  <h2 className="text-[17px] font-semibold text-[#0F172A]">Profile Settings</h2>
-                  <p className="text-[13px] text-[#64748B] mt-0.5">Update your profile and preferences</p>
+                  <h2 className="text-[17px] font-semibold text-[#0F172A]">Account Settings</h2>
+                  <p className="text-[13px] text-[#64748B] mt-0.5">Your profile, your rules</p>
                 </div>
 
                 <div className="p-6 md:p-8">
