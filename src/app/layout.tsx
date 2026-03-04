@@ -20,8 +20,11 @@ export const metadata: Metadata = {
     "Australia's automotive build showcase. Discover the exact parts, shops, and brands behind the builds you love.",
   metadataBase: new URL("https://whipspec.com"),
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
   openGraph: {
     title: "WhipSpec — Every Build Has a Story",
