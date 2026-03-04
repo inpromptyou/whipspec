@@ -6,6 +6,7 @@ import AuthModal from "@/components/AuthModal";
 interface User {
   id: number;
   name: string;
+  username: string | null;
   email: string;
   account_type: string;
 }

@@ -54,36 +54,52 @@ export default function HomeFeed() {
   return (
     <div className="min-h-screen bg-white">
       {/* Profile section */}
-      <div className="text-center pt-28 pb-8 border-b border-slate-100">
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] mx-auto mb-4 flex items-center justify-center text-white text-2xl font-semibold">
+      <div className="text-center pt-20 sm:pt-28 pb-6 sm:pb-8 border-b border-slate-100 px-4">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#1E6DF0] to-[#3B82F6] mx-auto mb-3 sm:mb-4 flex items-center justify-center text-white text-xl sm:text-2xl font-semibold">
           {user.name.charAt(0).toUpperCase()}
         </div>
         <p className="text-[14px] text-[#64748B] italic">
           Builds, curated by
         </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl text-[#0F172A] tracking-tight mt-0.5">
+        <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-[#0F172A] tracking-tight mt-0.5">
           {user.name}
         </h1>
-        <Link
-          href="/dashboard"
-          className="inline-block mt-4 border border-[#0F172A] text-[#0F172A] text-[12px] font-semibold uppercase tracking-[0.15em] px-5 py-2 hover:bg-[#0F172A] hover:text-white transition-colors"
-        >
-          My Dashboard
-        </Link>
+        {(user as unknown as { username?: string }).username && (
+          <p className="text-[14px] text-[#1E6DF0] font-medium mt-0.5">
+            @{(user as unknown as { username?: string }).username}
+          </p>
+        )}
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <Link
+            href="/dashboard"
+            className="inline-block border border-[#0F172A] text-[#0F172A] text-[12px] font-semibold uppercase tracking-[0.15em] px-5 py-2 hover:bg-[#0F172A] hover:text-white transition-colors"
+          >
+            My Dashboard
+          </Link>
+          {(user as unknown as { username?: string }).username && (
+            <button
+              onClick={() => navigator.clipboard.writeText(`https://whipspec.com/@${(user as unknown as { username?: string }).username}`)}
+              className="inline-flex items-center gap-1.5 border border-slate-200 text-[#64748B] text-[12px] font-semibold uppercase tracking-[0.15em] px-4 py-2 hover:border-[#1E6DF0] hover:text-[#1E6DF0] transition-colors"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Share Profile
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Tab bar */}
       <div className="border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-5">
-          <div className="flex items-center gap-1 overflow-x-auto py-3 -mb-px scrollbar-hide">
-            <div className="shrink-0 pr-3 border-r border-slate-200 mr-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <div className="max-w-6xl mx-auto px-3 sm:px-5">
+          <div className="flex items-center gap-0.5 sm:gap-1 overflow-x-auto py-2.5 sm:py-3 -mb-px scrollbar-hide">
+            <div className="shrink-0 pr-2 sm:pr-3 border-r border-slate-200 mr-2 sm:mr-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
             </div>
             {TABS.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`shrink-0 px-4 py-2 text-[13px] whitespace-nowrap transition-all border-b-2 ${
+                className={`shrink-0 px-2.5 sm:px-4 py-1.5 sm:py-2 text-[12px] sm:text-[13px] whitespace-nowrap transition-all border-b-2 ${
                   activeTab === tab
                     ? "border-[#0F172A] text-[#0F172A] font-medium"
                     : "border-transparent text-[#94A3B8] hover:text-[#475569]"
@@ -98,8 +114,8 @@ export default function HomeFeed() {
 
       {/* Brand chips - scrollable */}
       <div className="border-b border-slate-100 bg-[#FAFBFC]">
-        <div className="max-w-6xl mx-auto px-5">
-          <div ref={chipScrollRef} className="flex items-center gap-2 overflow-x-auto py-3 scrollbar-hide">
+        <div className="max-w-6xl mx-auto px-3 sm:px-5">
+          <div ref={chipScrollRef} className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-2.5 sm:py-3 scrollbar-hide">
             {BRAND_CHIPS.map((brand) => {
               const active = activeBrands.includes(brand);
               return (
@@ -127,7 +143,7 @@ export default function HomeFeed() {
       </div>
 
       {/* Build grid */}
-      <div className="max-w-6xl mx-auto px-5 py-8">
+      <div className="max-w-6xl mx-auto px-3 sm:px-5 py-5 sm:py-8">
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {Array.from({ length: 8 }).map((_, i) => (

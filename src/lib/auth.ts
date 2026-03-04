@@ -8,6 +8,7 @@ const TOKEN_EXPIRY = "7d";
 export interface User {
   id: number;
   name: string;
+  username: string | null;
   email: string;
   account_type: string;
   avatar_url: string | null;
@@ -26,9 +27,9 @@ export async function createUser(
   const hash = await bcrypt.hash(password, 12);
 
   const rows = await sql`
-    INSERT INTO users (name, email, password_hash, account_type)
-    VALUES (${name}, ${email}, ${hash}, ${accountType})
-    RETURNING id, name, email, account_type, avatar_url, bio, location, created_at
+    INSERT INTO users (name, email, password_hash, account_type, username)
+    VALUES (${name}, ${email}, ${hash}, ${accountType}, ${email.split("@")[0].toLowerCase().replace(/[^a-z0-9]/g, "")})
+    RETURNING id, name, username, email, account_type, avatar_url, bio, location, created_at
   `;
 
   return rows[0] as User;
@@ -41,7 +42,7 @@ export async function verifyCredentials(
   const sql = getSql();
 
   const rows = await sql`
-    SELECT id, name, email, password_hash, account_type, avatar_url, bio, location, created_at
+    SELECT id, name, username, email, password_hash, account_type, avatar_url, bio, location, created_at
     FROM users WHERE email = ${email}
   `;
 
@@ -77,7 +78,7 @@ export async function getUserFromToken(token: string): Promise<User | null> {
 
   const sql = getSql();
   const rows = await sql`
-    SELECT id, name, email, account_type, avatar_url, bio, location, created_at
+    SELECT id, name, username, email, account_type, avatar_url, bio, location, created_at
     FROM users WHERE id = ${payload.userId}
   `;
 

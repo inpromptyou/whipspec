@@ -21,6 +21,9 @@ export async function ensureTables() {
     )
   `;
 
+  // Add username column if missing
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS username VARCHAR(50) UNIQUE`;
+
   await sql`
     CREATE TABLE IF NOT EXISTS sessions (
       id SERIAL PRIMARY KEY,

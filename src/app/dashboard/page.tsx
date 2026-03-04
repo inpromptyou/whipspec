@@ -62,6 +62,7 @@ export default function DashboardPage() {
 
   // Settings state
   const [settingsName, setSettingsName] = useState("");
+  const [settingsUsername, setSettingsUsername] = useState("");
   const [settingsLocation, setSettingsLocation] = useState("");
   const [settingsBio, setSettingsBio] = useState("");
   const [settingsInstagram, setSettingsInstagram] = useState("");
@@ -81,6 +82,7 @@ export default function DashboardPage() {
     if (!user) { router.push("/"); return; }
     fetchBuilds();
     setSettingsName(user.name || "");
+    setSettingsUsername((user as unknown as { username?: string }).username || "");
   }, [user, authLoading, router, fetchBuilds]);
 
   const addMod = () => setMods([...mods, { category: "", brand: "", product_name: "", shop_name: "", link: "", notes: "" }]);
@@ -124,6 +126,7 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: settingsName.trim(),
+          username: settingsUsername.trim() || null,
           location: settingsLocation.trim() || null,
           bio: settingsBio.trim() || null,
           instagram: settingsInstagram.trim() || null,
@@ -506,6 +509,16 @@ export default function DashboardPage() {
                     <div>
                       <label className="block text-[12px] font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Name</label>
                       <input type="text" value={settingsName} onChange={(e) => setSettingsName(e.target.value)} className={inputClass} />
+                    </div>
+                    <div>
+                      <label className="block text-[12px] font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Username</label>
+                      <div className="flex items-center">
+                        <span className="text-[14px] text-[#94A3B8] mr-1">@</span>
+                        <input type="text" value={settingsUsername} onChange={(e) => setSettingsUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ""))} placeholder="yourname" className={inputClass} />
+                      </div>
+                      {settingsUsername && (
+                        <p className="text-[11px] text-[#94A3B8] mt-1">Your profile: whipspec.com/@{settingsUsername}</p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-[12px] font-semibold text-[#475569] uppercase tracking-wider mb-1.5">Email</label>

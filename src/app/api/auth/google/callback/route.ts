@@ -69,6 +69,7 @@ export async function GET(req: NextRequest) {
     const token = generateToken({
       id: user.id as number,
       name: user.name as string,
+      username: (user.username as string | null) || null,
       email: user.email as string,
       account_type: user.account_type as string,
       avatar_url: user.avatar_url as string | null,

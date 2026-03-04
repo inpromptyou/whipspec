@@ -10,12 +10,26 @@ export async function POST(req: NextRequest) {
     const payload = verifyToken(token);
     if (!payload) return NextResponse.json({ error: "Invalid token" }, { status: 401 });
 
-    const { name, location, bio, instagram } = await req.json();
+    const { name, username, location, bio, instagram } = await req.json();
     const sql = getSql();
+
+    // Validate username if provided
+    if (username) {
+      const clean = username.toLowerCase().replace(/[^a-z0-9_]/g, "");
+      if (clean.length < 3 || clean.length > 30) {
+        return NextResponse.json({ error: "Username must be 3-30 characters (letters, numbers, underscores)" }, { status: 400 });
+      }
+      // Check uniqueness
+      const existing = await sql`SELECT id FROM users WHERE username = ${clean} AND id != ${payload.userId}`;
+      if (existing.length > 0) {
+        return NextResponse.json({ error: "Username already taken" }, { status: 409 });
+      }
+    }
 
     await sql`
       UPDATE users SET
         name = COALESCE(${name || null}, name),
+        username = COALESCE(${username ? username.toLowerCase().replace(/[^a-z0-9_]/g, "") : null}, username),
         location = ${location || null},
         bio = ${bio || null},
         instagram = ${instagram || null},
