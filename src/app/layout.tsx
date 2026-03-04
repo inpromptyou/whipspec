@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -17,26 +16,35 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "WhipSpec — Every Build Has a Story",
-  description: "Australia's automotive build showcase. Discover the exact parts, shops, and brands behind the builds you love.",
+  description:
+    "Australia's automotive build showcase. Discover the exact parts, shops, and brands behind the builds you love.",
   metadataBase: new URL("https://whipspec.com"),
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "WhipSpec — Every Build Has a Story",
-    description: "Australia's automotive build showcase. Parts, shops, brands — all in one place.",
+    description:
+      "Parts, shops, brands — attributed and discoverable.",
     url: "https://whipspec.com",
     siteName: "WhipSpec",
     locale: "en_AU",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    site: "@whipspec",
-  },
+  twitter: { card: "summary_large_image", site: "@whipspec" },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased bg-[#0A0A0A] text-[#EDEDED]">{children}</body>
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+      <body className="font-sans antialiased bg-white text-[#0F172A]">
+        {children}
+      </body>
     </html>
   );
 }
