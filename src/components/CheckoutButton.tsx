@@ -10,6 +10,12 @@ export default function CheckoutButton({ plan, label, className }: { plan: strin
   const handleClick = async () => {
     if (!user) { showAuthModal(); return; }
 
+    // Free plan — just go to dashboard
+    if (plan === "creator_free") {
+      window.location.href = "/dashboard";
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/stripe/checkout", {

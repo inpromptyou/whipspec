@@ -4,6 +4,10 @@ import { verifyToken } from "@/lib/auth";
 const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY;
 
 const PLANS: Record<string, { priceId: string; name: string }> = {
+  creator_plus: {
+    priceId: process.env.STRIPE_PRICE_CREATOR_PLUS || "",
+    name: "Creator Plus",
+  },
   shop_pro: {
     priceId: process.env.STRIPE_PRICE_SHOP_PRO || "",
     name: "Shop Pro",
