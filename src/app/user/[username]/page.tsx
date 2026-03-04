@@ -19,12 +19,12 @@ interface Build {
 }
 
 const STARTER_TEMPLATES = [
-  { title: "Daily Build", style: "Daily", emoji: "🔧", gradient: "from-slate-800 to-slate-900", img: "/hero-3.jpg" },
-  { title: "4WD Touring Rig", style: "4WD / Touring", emoji: "⛰️", gradient: "from-emerald-800 to-emerald-900", img: "/hero-4.jpg" },
-  { title: "Track Weapon", style: "Track", emoji: "🏁", gradient: "from-red-800 to-red-900", img: "/hero-5.jpg" },
-  { title: "Street Machine", style: "Street", emoji: "🔥", gradient: "from-blue-800 to-blue-900", img: "/hero-10.jpg" },
-  { title: "Show Build", style: "Show", emoji: "✨", gradient: "from-purple-800 to-purple-900", img: "/hero-6.jpg" },
-  { title: "Overlander", style: "4WD / Touring", emoji: "🌏", gradient: "from-amber-800 to-amber-900", img: "/hero-7.jpg" },
+  { title: "Daily Build", style: "Daily", gradient: "from-slate-800 to-slate-900", img: "/hero-3.jpg" },
+  { title: "4WD Touring Rig", style: "4WD / Touring", gradient: "from-emerald-800 to-emerald-900", img: "/hero-4.jpg" },
+  { title: "Track Weapon", style: "Track", gradient: "from-red-800 to-red-900", img: "/hero-5.jpg" },
+  { title: "Street Machine", style: "Street", gradient: "from-blue-800 to-blue-900", img: "/hero-10.jpg" },
+  { title: "Show Build", style: "Show", gradient: "from-purple-800 to-purple-900", img: "/hero-6.jpg" },
+  { title: "Overlander", style: "4WD / Touring", gradient: "from-amber-800 to-amber-900", img: "/hero-7.jpg" },
 ];
 
 async function getProfile(raw: string): Promise<{ user: UserProfile; builds: Build[] } | null> {
@@ -210,7 +210,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
                       <img src={t.img} alt={t.style} className="absolute inset-0 w-full h-full object-cover" />
                       <div className={`absolute inset-0 bg-gradient-to-t ${t.gradient} opacity-60 group-hover:opacity-70 transition-opacity`} />
                       <div className="absolute inset-0 flex flex-col items-center justify-center p-3">
-                        <span className="text-2xl mb-1">{t.emoji}</span>
+                        <img src="/logo.png" alt="WhipSpec" className="w-6 h-6 object-contain opacity-60 mb-1" />
                         <p className="text-white text-[12px] sm:text-[13px] font-semibold text-center leading-tight">{t.title}</p>
                         <p className="text-white/60 text-[10px] mt-0.5">{t.style}</p>
                       </div>
