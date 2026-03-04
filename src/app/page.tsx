@@ -7,11 +7,11 @@ import HomeRouter from "@/components/HomeRouter";
 import { OrganizationSchema, WebsiteSchema } from "@/components/StructuredData";
 
 const GRID_IMAGES = [
-  { id: 1, src: "/hero-3.jpg", alt: "HiLux beach build" },
-  { id: 2, src: "/hero-4.jpg", alt: "HiLux sunset" },
+  { id: 1, src: "/hero-14.jpg", alt: "HiLux beach sunset build" },
+  { id: 2, src: "/hero-11.jpg", alt: "Isuzu D-Max warehouse" },
   { id: 3, src: "/hero-5.jpg", alt: "LandCruiser and Raptor" },
-  { id: 4, src: "/hero-6.jpg", alt: "Twin HiLux builds" },
-  { id: 5, src: "/hero-7.jpg", alt: "Twin HiLux on the sand" },
+  { id: 4, src: "/hero-13.jpg", alt: "HSV GTS parking garage" },
+  { id: 5, src: "/hero-12.jpg", alt: "MINT 4X4 Patrol outback" },
   { id: 6, src: "/hero-8.jpg", alt: "VZ Ute slammed by the river" },
   { id: 7, src: "/hero-9.jpg", alt: "VE Ute colour-shift teal" },
   { id: 8, src: "/hero-10.jpg", alt: "Red VE SS Ute at Shell" },
