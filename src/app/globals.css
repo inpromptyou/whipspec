@@ -2,7 +2,7 @@
 
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bebas), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, serif;
 }
 
 html {
@@ -13,10 +13,10 @@ html {
 
 body {
   background-color: #0A0A0A;
-  color: #E0E0E0;
+  color: #EDEDED;
 }
 
 ::selection {
-  background-color: #00B4D830;
+  background-color: #1E6DF030;
   color: #FFFFFF;
 }
