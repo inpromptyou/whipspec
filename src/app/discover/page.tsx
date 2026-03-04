@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { ListSkeleton } from "@/components/Skeleton";
 
 interface Build {
   id: number; title: string; slug: string; make: string; model: string;
@@ -72,7 +73,7 @@ export default function DiscoverPage() {
 
           {/* Results */}
           {loading ? (
-            <p className="text-center text-[#94A3B8] text-sm py-20">Loading...</p>
+            <ListSkeleton count={6} />
           ) : builds.length === 0 ? (
             <div className="text-center py-20">
               <div className="w-14 h-14 rounded-2xl bg-[#1E6DF0]/[0.06] flex items-center justify-center mx-auto mb-4">

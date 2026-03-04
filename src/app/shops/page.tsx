@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { ShopCardSkeleton } from "@/components/Skeleton";
 
 interface Shop {
   id: number; name: string; slug: string; description: string; location: string;
@@ -48,7 +49,7 @@ export default function ShopsPage() {
           </div>
 
           {loading ? (
-            <p className="text-center text-[#94A3B8] text-sm py-20">Loading...</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">{Array.from({length:6}).map((_,i) => <ShopCardSkeleton key={i} />)}</div>
           ) : shops.length === 0 ? (
             <div className="text-center py-20 bg-[#F8FAFC] rounded-2xl border border-slate-100">
               <h3 className="text-[17px] font-semibold text-[#0F172A] mb-2">No shops listed yet</h3>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { BrandCardSkeleton } from "@/components/Skeleton";
 
 interface Brand {
   id: number; name: string; slug: string; description: string; category: string;
@@ -64,7 +65,7 @@ export default function BrandsPage() {
           </div>
 
           {loading ? (
-            <p className="text-center text-[#94A3B8] text-sm py-20">Loading...</p>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{Array.from({length:8}).map((_,i) => <BrandCardSkeleton key={i} />)}</div>
           ) : brands.length === 0 ? (
             <div className="text-center py-20 bg-[#F8FAFC] rounded-2xl border border-slate-100">
               <h3 className="text-[17px] font-semibold text-[#0F172A] mb-2">No brands listed yet</h3>

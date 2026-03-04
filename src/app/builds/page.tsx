@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { ListSkeleton } from "@/components/Skeleton";
 
 interface Build {
   id: number; title: string; slug: string; make: string; model: string;
@@ -38,7 +39,7 @@ export default function BuildsPage() {
           </div>
 
           {loading ? (
-            <p className="text-center text-[#94A3B8] text-sm py-20">Loading...</p>
+            <ListSkeleton count={6} />
           ) : builds.length === 0 ? (
             <div className="text-center py-20 bg-[#F8FAFC] rounded-2xl border border-slate-100">
               <h3 className="text-[17px] font-semibold text-[#0F172A] mb-2">No builds published yet</h3>
