@@ -7,6 +7,7 @@ import Image from "next/image";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/lib/auth-context";
+import ShopTagger from "@/components/ShopTagger";
 
 interface Build {
   id: number; title: string; slug: string; make: string; model: string;
@@ -580,30 +581,7 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Shop tagging */}
-                    <div>
-                      <div className="flex justify-between items-center mb-3">
-                        <label className="block text-[12px] font-semibold text-[#475569] uppercase tracking-wider">Tag shops</label>
-                        <button type="button" onClick={() => setTaggedShops([...taggedShops, { shop_name: "", address: "", phone: "", website: "" }])} className="inline-flex items-center gap-1 text-[12px] font-medium text-[#1E6DF0] hover:text-[#1557CC]">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4"/></svg>
-                          Tag a shop
-                        </button>
-                      </div>
-                      <p className="text-[11px] text-[#94A3B8] mb-3">Tag the shops that did the work. They&apos;ll be invited to claim their profile on WhipSpec.</p>
-                      {taggedShops.map((shop, i) => (
-                        <div key={i} className="bg-[#F8FAFC] rounded-xl border border-slate-100 p-4 mb-3">
-                          <div className="flex justify-between items-center mb-3">
-                            <span className="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider">Shop {i + 1}</span>
-                            <button type="button" onClick={() => setTaggedShops(taggedShops.filter((_, j) => j !== i))} className="text-[11px] text-red-400 hover:text-red-500 font-medium">Remove</button>
-                          </div>
-                          <div className="grid sm:grid-cols-2 gap-3">
-                            <input type="text" value={shop.shop_name} onChange={(e) => { const t = [...taggedShops]; t[i] = { ...t[i], shop_name: e.target.value }; setTaggedShops(t); }} placeholder="Shop name *" className={inputClass} />
-                            <input type="text" value={shop.address} onChange={(e) => { const t = [...taggedShops]; t[i] = { ...t[i], address: e.target.value }; setTaggedShops(t); }} placeholder="Address / suburb" className={inputClass} />
-                            <input type="text" value={shop.phone} onChange={(e) => { const t = [...taggedShops]; t[i] = { ...t[i], phone: e.target.value }; setTaggedShops(t); }} placeholder="Phone (optional)" className={inputClass} />
-                            <input type="text" value={shop.website} onChange={(e) => { const t = [...taggedShops]; t[i] = { ...t[i], website: e.target.value }; setTaggedShops(t); }} placeholder="Website (optional)" className={inputClass} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <ShopTagger shops={taggedShops} onChange={setTaggedShops} inputClass={inputClass} />
 
                     <button type="submit" disabled={creating} className="w-full bg-[#1E6DF0] text-white font-medium py-3 rounded-lg text-sm hover:bg-[#1557CC] disabled:opacity-50 transition-colors shadow-sm">
                       {creating ? "Publishing..." : "Publish build"}
