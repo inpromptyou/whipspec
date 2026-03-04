@@ -14,7 +14,7 @@ const GRID_IMAGES = [
   { id: 5, src: "/hero-12.jpg", alt: "MINT 4X4 Patrol outback" },
   { id: 6, src: "/hero-8.jpg", alt: "VZ Ute slammed by the river" },
   { id: 7, src: "/hero-9.jpg", alt: "VE Ute colour-shift teal" },
-  { id: 8, src: "/hero-10.jpg", alt: "Red VE SS Ute at Shell" },
+  { id: 8, src: "/hero-15.jpg", alt: "Yellow VL Commodore TUFBT1" },
 ];
 
 const STATS = [

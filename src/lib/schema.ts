@@ -185,5 +185,43 @@ export async function ensureTables() {
     )
   `;
 
-  return { success: true, tables: ["users", "sessions", "waitlist", "shops", "brands", "builds", "build_mods", "inquiries", "sponsorships", "platform_metrics", "sponsorship_events"] };
+  // Shop tags — shops tagged by creators that aren't registered yet (lead gen pipeline)
+  await sql`
+    CREATE TABLE IF NOT EXISTS shop_tags (
+      id SERIAL PRIMARY KEY,
+      build_id INTEGER NOT NULL REFERENCES builds(id) ON DELETE CASCADE,
+      tagged_by INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      shop_name VARCHAR(255) NOT NULL,
+      address VARCHAR(500),
+      phone VARCHAR(50),
+      website VARCHAR(255),
+      email VARCHAR(255),
+      google_place_id VARCHAR(255),
+      shop_id INTEGER REFERENCES shops(id) ON DELETE SET NULL,
+      status VARCHAR(20) DEFAULT 'pending',
+      invite_sent_at TIMESTAMP WITH TIME ZONE,
+      claimed_at TIMESTAMP WITH TIME ZONE,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    )
+  `;
+
+  // Password resets
+  await sql`
+    CREATE TABLE IF NOT EXISTS password_resets (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL,
+      token VARCHAR(255) UNIQUE NOT NULL,
+      expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
+      used BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    )
+  `;
+
+  // Stripe subscription columns
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS stripe_customer_id VARCHAR(255)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS stripe_subscription_id VARCHAR(255)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS subscription_plan VARCHAR(50)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS subscription_status VARCHAR(20) DEFAULT 'inactive'`;
+
+  return { success: true, tables: ["users", "sessions", "waitlist", "shops", "brands", "builds", "build_mods", "inquiries", "sponsorships", "platform_metrics", "sponsorship_events", "shop_tags", "password_resets"] };
 }
