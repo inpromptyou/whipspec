@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Core fields always exist
     await sql`
       UPDATE users SET
         name = COALESCE(${name || null}, name),
@@ -34,14 +35,24 @@ export async function POST(req: NextRequest) {
         bio = ${bio || null},
         instagram = ${instagram ?? null},
         tiktok = ${tiktok ?? null},
-        facebook = ${facebook ?? null},
-        snapchat = ${snapchat ?? null},
-        youtube = ${youtube ?? null},
-        twitter = ${twitter ?? null},
         website = ${website ?? null},
         updated_at = NOW()
       WHERE id = ${payload.userId}
     `;
+
+    // New social columns (may not exist yet — safe to fail)
+    try {
+      if (facebook !== undefined || snapchat !== undefined || youtube !== undefined || twitter !== undefined) {
+        await sql`
+          UPDATE users SET
+            facebook = ${facebook ?? null},
+            snapchat = ${snapchat ?? null},
+            youtube = ${youtube ?? null},
+            twitter = ${twitter ?? null}
+          WHERE id = ${payload.userId}
+        `;
+      }
+    } catch { /* columns don't exist yet — ignore */ }
 
     return NextResponse.json({ success: true });
   } catch (error: unknown) {

@@ -19,10 +19,12 @@ interface Build {
 }
 
 const STARTER_TEMPLATES = [
-  { title: "My Daily — Full Spec", style: "Daily", icon: "M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10" },
-  { title: "Weekend 4WD Touring Rig", style: "4WD / Touring", icon: "M3 21l1.65-3.8a9 9 0 1112.7 0L21 21 M12 3a9 9 0 00-9 9" },
-  { title: "Track Build — Every Mod", style: "Track", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
-  { title: "Street Machine Build Log", style: "Street", icon: "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" },
+  { title: "Daily Build", style: "Daily", emoji: "🔧", gradient: "from-slate-800 to-slate-900", img: "/hero-3.jpg" },
+  { title: "4WD Touring Rig", style: "4WD / Touring", emoji: "⛰️", gradient: "from-emerald-800 to-emerald-900", img: "/hero-4.jpg" },
+  { title: "Track Weapon", style: "Track", emoji: "🏁", gradient: "from-red-800 to-red-900", img: "/hero-5.jpg" },
+  { title: "Street Machine", style: "Street", emoji: "🔥", gradient: "from-blue-800 to-blue-900", img: "/hero-10.jpg" },
+  { title: "Show Build", style: "Show", emoji: "✨", gradient: "from-purple-800 to-purple-900", img: "/hero-6.jpg" },
+  { title: "Overlander", style: "4WD / Touring", emoji: "🌏", gradient: "from-amber-800 to-amber-900", img: "/hero-7.jpg" },
 ];
 
 async function getProfile(raw: string): Promise<{ user: UserProfile; builds: Build[] } | null> {
@@ -32,9 +34,7 @@ async function getProfile(raw: string): Promise<{ user: UserProfile; builds: Bui
   try {
     const sql = getSql();
     const users = await sql`
-      SELECT id, name, username, account_type, avatar_url, bio, location,
-             instagram, tiktok, facebook, snapchat, youtube, twitter, website, created_at
-      FROM users WHERE username = ${username} LIMIT 1
+      SELECT * FROM users WHERE username = ${username} LIMIT 1
     `;
     if (users.length === 0) return null;
 
@@ -184,36 +184,48 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
               ))}
             </div>
           ) : (
-            /* Empty state — starter templates */
-            <div className="space-y-6">
-              <div className="text-center py-10 bg-gradient-to-b from-[#F8FAFC] to-white rounded-2xl border border-slate-100">
-                <div className="w-14 h-14 rounded-2xl bg-[#1E6DF0]/[0.06] flex items-center justify-center mx-auto mb-4">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/>
-                  </svg>
+            /* Empty state — cool profile template */
+            <div className="space-y-8">
+              {/* Status card */}
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] p-6 sm:p-8 text-center">
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 left-1/4 w-64 h-64 bg-[#1E6DF0] rounded-full blur-3xl" />
+                  <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-[#3B82F6] rounded-full blur-3xl" />
                 </div>
-                <h3 className="text-[17px] font-semibold text-[#0F172A] mb-1">No builds yet</h3>
-                <p className="text-[13px] text-[#64748B] max-w-xs mx-auto">
-                  @{user.username} hasn&apos;t published any builds. Check back later or follow them on socials.
-                </p>
+                <div className="relative">
+                  <p className="text-[#64748B] text-[13px] mb-2">@{user.username}&apos;s garage</p>
+                  <h3 className="text-white text-[20px] sm:text-[24px] font-semibold mb-2">No builds yet</h3>
+                  <p className="text-[#94A3B8] text-[13px] max-w-sm mx-auto">
+                    This profile is fresh. Follow @{user.username} to see their builds when they drop.
+                  </p>
+                </div>
               </div>
 
-              {/* Build idea starters */}
+              {/* Build idea cards with images */}
               <div>
-                <h3 className="text-[13px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-3 text-center">Build ideas for @{user.username}</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <p className="text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.15em] mb-3 text-center">What will @{user.username} build?</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
                   {STARTER_TEMPLATES.map((t) => (
-                    <div key={t.title} className="bg-[#F8FAFC] rounded-xl border border-slate-100 p-4 text-center">
-                      <div className="w-10 h-10 rounded-lg bg-white border border-slate-100 flex items-center justify-center mx-auto mb-2.5">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E6DF0" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d={t.icon} />
-                        </svg>
+                    <div key={t.title} className="group relative aspect-[4/3] rounded-xl overflow-hidden">
+                      <img src={t.img} alt={t.style} className="absolute inset-0 w-full h-full object-cover" />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${t.gradient} opacity-60 group-hover:opacity-70 transition-opacity`} />
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-3">
+                        <span className="text-2xl mb-1">{t.emoji}</span>
+                        <p className="text-white text-[12px] sm:text-[13px] font-semibold text-center leading-tight">{t.title}</p>
+                        <p className="text-white/60 text-[10px] mt-0.5">{t.style}</p>
                       </div>
-                      <p className="text-[12px] font-medium text-[#0F172A] line-clamp-1">{t.title}</p>
-                      <p className="text-[10px] text-[#94A3B8] mt-0.5">{t.style}</p>
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* CTA */}
+              <div className="text-center">
+                <p className="text-[13px] text-[#64748B] mb-3">Got a build? Show the scene what you&apos;re running.</p>
+                <a href="/dashboard" className="inline-flex items-center gap-2 bg-[#0F172A] text-white text-[13px] font-medium px-5 py-2.5 rounded-lg hover:bg-[#1E293B] transition-colors">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4v16m8-8H4"/></svg>
+                  Drop your first build
+                </a>
               </div>
             </div>
           )}
